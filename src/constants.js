@@ -5,7 +5,13 @@ const algebraFunctions = {
     factorial: `${hostname}/algebra/factorial`,
     combinations: `${hostname}/algebra/combinations`,
 };
+const calculusFunctions = {
+    taylor_sine: `${hostname}/calculus/taylor_sine`,
+};
+const geometryFunctions = {
+    sohcahtoa: `${hostname}/geometry/sohcahtoa`,
+};
 const calculusPath = `${hostname}/calculus`;
 const algebraPath = `${hostname}/algebra`;
 const geometryPath = `${hostname}/geometry`;
-export { hostname, algebraFunctions, calculusPath, algebraPath, geometryPath };
+export { hostname, algebraFunctions, calculusPath, algebraPath, geometryPath, geometryFunctions, calculusFunctions };

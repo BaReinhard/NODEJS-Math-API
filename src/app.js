@@ -14,11 +14,21 @@
  */
 
 'use strict';
-import { hostname, algebraFunctions, calculusPath, algebraPath, geometryPath } from './constants';
+import {
+    hostname,
+    algebraFunctions,
+    geometryFunctions,
+    calculusFunctions,
+    calculusPath,
+    algebraPath,
+    geometryPath,
+} from './constants';
 import { nth_term } from './functions/algebra/arithmetic_progression/nth_term';
 import { sum_of_first_n_numbers } from './functions/algebra/arithmetic_progression/sum_of_first_n_terms';
 import { combinations } from './functions/algebra/combinations/combinations';
 import { factorial } from './functions/algebra/combinations/factorial';
+import { taylor_sine } from './functions/calculus/taylor_sine/taylor_sine';
+import { sohcahtoa } from './functions/geometry/sohcahtoa/sohcahtoa';
 
 import { SENDER } from './functions/sender';
 // [START app]
@@ -51,7 +61,38 @@ app.get('/algebra/:id', (req, res) => {
             break;
     }
 });
+app.get('/calculus', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
 
+    res
+        .status(200)
+        .send(JSON.stringify(Object.assign({}, {}, calculusFunctions)))
+        .end();
+});
+app.get('/geometry', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    res
+        .status(200)
+        .send(JSON.stringify(Object.assign({}, {}, geometryFunctions)))
+        .end();
+});
+app.get('/calculus/:id', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    switch (req.params.id) {
+        case 'taylor_sine':
+            SENDER(req, res, taylor_sine);
+    }
+});
+app.get('/geometry/:id', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    switch (req.params.id) {
+        case 'sohcahtoa':
+            SENDER(req, res, sohcahtoa);
+    }
+});
 app.get('/', (req, res) => {
     console.log(calculusPath);
     res.header('Content-Type', 'application/json; charset=utf-8');

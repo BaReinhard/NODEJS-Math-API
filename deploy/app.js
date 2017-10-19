@@ -25,6 +25,10 @@ var _combinations = require('./functions/algebra/combinations/combinations');
 
 var _factorial = require('./functions/algebra/combinations/factorial');
 
+var _taylor_sine = require('./functions/calculus/taylor_sine/taylor_sine');
+
+var _sohcahtoa = require('./functions/geometry/sohcahtoa/sohcahtoa');
+
 var _sender = require('./functions/sender');
 
 var _express = require('express');
@@ -59,7 +63,32 @@ app.get('/algebra/:id', function (req, res) {
             break;
     }
 });
+app.get('/calculus', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
 
+    res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.calculusFunctions))).end();
+});
+app.get('/geometry', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.geometryFunctions))).end();
+});
+app.get('/calculus/:id', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    switch (req.params.id) {
+        case 'taylor_sine':
+            (0, _sender.SENDER)(req, res, _taylor_sine.taylor_sine);
+    }
+});
+app.get('/geometry/:id', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    switch (req.params.id) {
+        case 'sohcahtoa':
+            (0, _sender.SENDER)(req, res, _sohcahtoa.sohcahtoa);
+    }
+});
 app.get('/', function (req, res) {
     console.log(_constants.calculusPath);
     res.header('Content-Type', 'application/json; charset=utf-8');

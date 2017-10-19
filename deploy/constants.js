@@ -10,6 +10,12 @@ var algebraFunctions = {
     factorial: hostname + '/algebra/factorial',
     combinations: hostname + '/algebra/combinations'
 };
+var calculusFunctions = {
+    taylor_sine: hostname + '/calculus/taylor_sine'
+};
+var geometryFunctions = {
+    sohcahtoa: hostname + '/geometry/sohcahtoa'
+};
 var calculusPath = hostname + '/calculus';
 var algebraPath = hostname + '/algebra';
 var geometryPath = hostname + '/geometry';
@@ -18,3 +24,5 @@ exports.algebraFunctions = algebraFunctions;
 exports.calculusPath = calculusPath;
 exports.algebraPath = algebraPath;
 exports.geometryPath = geometryPath;
+exports.geometryFunctions = geometryFunctions;
+exports.calculusFunctions = calculusFunctions;
