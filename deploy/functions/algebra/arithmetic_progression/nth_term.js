@@ -1,9 +1,13 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var nth_term = function nth_term(a, d, n) {
-    return a + (n - 1) * d;
+exports.nth_term = undefined;
+
+var _sender = require('../../sender');
+
+var nth_term = function nth_term(constant, variable, n) {
+    return constant + (n - 1) * variable;
 };
-exports.default = nth_term;
+exports.nth_term = nth_term;

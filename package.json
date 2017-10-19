@@ -5,6 +5,7 @@
     "main": "index.js",
     "dependencies": {
         "express": "^4.16.2",
+        "gulp-babel": "^7.0.0",
         "gulp-nodemon": "^2.2.1",
         "prettyjson": "^1.2.1"
     },

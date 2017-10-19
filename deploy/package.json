@@ -4,7 +4,10 @@
     "description": "A simple nodejs api dedicated to math functions",
     "main": "index.js",
     "dependencies": {
-        "express": "^4.16.2"
+        "express": "^4.16.2",
+        "gulp-babel": "^7.0.0",
+        "gulp-nodemon": "^2.2.1",
+        "prettyjson": "^1.2.1"
     },
     "devDependencies": {
         "@google-cloud/nodejs-repo-tools": "^2.0.10",
@@ -12,12 +15,12 @@
         "babel-preset-env": "^1.6.1",
         "gulp": "^3.9.1"
     },
-
     "engines": {
         "node": ">=4.3.2"
     },
     "scripts": {
         "deploy": "gcloud app deploy",
+        "build": "babel  --out-dir deploy src",
         "start": "node app.js",
         "lint": "samples lint",
         "pretest": "npm run lint",
@@ -33,10 +36,6 @@
         },
         "requiresKeyFile": true,
         "requiresProjectId": true
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/bareinhard/NODEJS-Math-API.git"
     },
     "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
     "license": "ISC"

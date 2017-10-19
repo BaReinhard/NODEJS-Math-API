@@ -1,5 +1,6 @@
 var gulp = require('gulp'),
-    nodemon = require('gulp-nodemon');
+    nodemon = require('gulp-nodemon'),
+    babel = require('gulp-babel');
 
 gulp.task('default', () => {
     nodemon({
@@ -8,8 +9,15 @@ gulp.task('default', () => {
         env: {
             PORT: 8080,
         },
-        ignore: ['./node_modules/**'],
+        ignore: ['./node_modules/**', './deploy'],
     }).on('restart', () => {
-        console.log('Restarting Server');
+        gulp
+            .src('src/**')
+            .pipe(
+                babel({
+                    presets: ['env'],
+                }),
+            )
+            .pipe(gulp.dest('deploy'));
     });
 });

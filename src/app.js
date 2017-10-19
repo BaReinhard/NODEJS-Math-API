@@ -14,48 +14,70 @@
  */
 
 'use strict';
-import { nth_term_sender } from './functions/algebra/arithmetic_progression/nth_term';
-import { sum_of_first_n_sender } from './functions/algebra/arithmetic_progression/sum_of_first_n_terms';
+import { hostname, algebraFunctions, calculusPath, algebraPath, geometryPath } from './constants';
+import { nth_term } from './functions/algebra/arithmetic_progression/nth_term';
+import { sum_of_first_n_numbers } from './functions/algebra/arithmetic_progression/sum_of_first_n_terms';
+import { combinations } from './functions/algebra/combinations/combinations';
+import { factorial } from './functions/algebra/combinations/factorial';
 
+import { SENDER } from './functions/sender';
 // [START app]
 import express from 'express';
 
 const app = express();
+app.get('/algebra', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
+    res
+        .status(200)
+        .send(JSON.stringify(Object.assign({}, {}, algebraFunctions)))
+        .end();
+});
 app.get('/algebra/:id', (req, res) => {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
     switch (req.params.id) {
         case 'nth_term':
-            nth_term_sender(req, res);
+            SENDER(req, res, nth_term);
             break;
-        case 'sum_of_first_n_terms':
-            sum_of_first_n_sender(req, res);
+        case 'sum_of_first_n_numbers':
+            SENDER(req, res, sum_of_first_n_numbers);
+            break;
+        case 'factorial':
+            SENDER(req, res, factorial);
+            break;
+        case 'combinations':
+            SENDER(req, res, combinations);
             break;
     }
-
-    //   res
-    //     .status(200)
-    //     .send(
-    //         JSON.stringify({
-    //           hobbies:["programming","making","raspberry-pi","web development","learning"],
-    //           technologies:["nodejs",".NET","React","Angular","Google Cloud Platform","Azure Web Services"]
-    //         })
-    //     ).end();
 });
+
 app.get('/', (req, res) => {
+    console.log(calculusPath);
+    res.header('Content-Type', 'application/json; charset=utf-8');
+
     res
         .status(200)
         .send(
             JSON.stringify(
                 {
-                    name: 'Brett Reinhard',
-                    DOB: '08/19/1989',
-                    age: 28,
-                    desiredPosition: 'AV Backend Developer Intern',
-                    desiredCompany: 'Snapchat',
-                    github: 'https://github.com/bareinhard',
-                    personalWebsite: 'http://brettreinhard.com',
-                    instagram: 'https://instagram.com/bareinhard',
-                    twitter: 'https://twitter.com/brett510',
-                    snapchat: '@bareinhard',
+                    author: {
+                        name: 'Brett Reinhard',
+                        DOB: '08/19/1989',
+                        age: 28,
+                        desiredPosition: 'AV Backend Developer Intern',
+                        desiredCompany: 'Snapchat',
+                        github: 'https://github.com/bareinhard',
+                        personalWebsite: 'http://brettreinhard.com',
+                        instagram: 'https://instagram.com/bareinhard',
+                        twitter: 'https://twitter.com/brett510',
+                        snapchat: '@bareinhard',
+                    },
+                    mathematics: {
+                        calculus: calculusPath,
+                        geometry: geometryPath,
+                        algebra: algebraPath,
+                    },
                 },
                 null,
                 4,

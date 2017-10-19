@@ -1,3 +1,9 @@
+import { hostname } from '../constants';
+const links = {
+    algebra: `${hostname}/algebra`,
+    calculus: `${hostname}/calculus`,
+    geometry: `${hostname}/geometry`,
+};
 let OK = (req, res, result) => {
     res
         .status(200)
@@ -5,6 +11,17 @@ let OK = (req, res, result) => {
             JSON.stringify(
                 {
                     result: result,
+                    link: Object.assign(
+                        {},
+                        {
+                            github: `https://brettreinhard.com/Hacktoberfest-Mathematics#${req._parsedUrl.pathname.split(
+                                '/',
+                            )[2]}`,
+                            parent: `${hostname}/${req._parsedUrl.pathname.split('/')[1]}`,
+                            self: `${hostname}${req._parsedUrl.pathname}`,
+                        },
+                        links,
+                    ),
                 },
                 null,
                 '\t',
@@ -25,4 +42,37 @@ let ERROR = (req, res, func) => {
         ),
     );
 };
-export { OK, ERROR };
+let GIVEDETAILS = (req, res, func) => {
+    let params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
+    let query = params
+        .split(',')
+        .map((item, index) => 'param' + parseInt(index + 1) + '=' + Math.floor(Math.random() * 10));
+    query = query.toString().replace(/,/g, '&');
+    res.status(200).send(
+        JSON.stringify(
+            {
+                name: func.name,
+                func_sig: func.toString(),
+                params: params,
+                linkExample: `${hostname}${req._parsedUrl.pathname}?${query}`,
+            },
+            null,
+            '\n',
+        ),
+    );
+};
+let SENDER = (req, res, func) => {
+    let vals = Object.values(req.query);
+    let params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
+    params = params.toString().split(',').length;
+
+    if (vals.length === params) {
+        let result = func(...vals);
+        OK(req, res, result);
+    } else if (vals.length === 0) {
+        GIVEDETAILS(req, res, func);
+    } else {
+        ERROR(req, res, func);
+    }
+};
+export { OK, ERROR, GIVEDETAILS, SENDER };
