@@ -9,11 +9,6 @@ var _constants = require('../constants');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-var links = {
-    algebra: _constants.hostname + '/algebra',
-    calculus: _constants.hostname + '/calculus',
-    geometry: _constants.hostname + '/geometry'
-};
 var OK = function OK(req, res, result) {
     res.status(200).send(JSON.stringify({
         result: result,
@@ -21,27 +16,36 @@ var OK = function OK(req, res, result) {
             github: 'https://brettreinhard.com/Hacktoberfest-Mathematics#' + req._parsedUrl.pathname.split('/')[2],
             parent: _constants.hostname + '/' + req._parsedUrl.pathname.split('/')[1],
             self: '' + _constants.hostname + req._parsedUrl.pathname
-        }, links)
+        }, _constants.links)
     }, null, '\t')).end();
 };
 var ERROR = function ERROR(req, res, func) {
     res.status(200).send(JSON.stringify({
         error: 'Incorrect number of parameters',
-        name: func.name,
-        func_sig: func.toString()
+        function: {
+            name: func.name,
+            signature: func.toString()
+        }
     }, null, '\n'));
 };
 var GIVEDETAILS = function GIVEDETAILS(req, res, func) {
     var params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
     var query = params.split(',').map(function (item, index) {
-        return 'param' + parseInt(index + 1) + '=' + Math.floor(Math.random() * 10);
+        return 'param' + parseInt(index + 1) + '=' + parseInt(Math.floor(Math.random() * 10) + 1);
     });
     query = query.toString().replace(/,/g, '&');
+    params = params.replace(/ /g, '').split(',');
     res.status(200).send(JSON.stringify({
-        name: func.name,
-        func_sig: func.toString(),
-        params: params,
-        linkExample: '' + _constants.hostname + req._parsedUrl.pathname + '?' + query
+        function: {
+            name: func.name,
+            signature: func.toString(),
+            base64: Buffer.from(func.toString()).toString('base64'),
+            parameters: params,
+            example: '' + _constants.hostname + req._parsedUrl.pathname + '?' + query
+        },
+        links: Object.assign({}, _constants.links, {
+            parent: _constants.hostname + '/' + req._parsedUrl.pathname.split('/')[1]
+        })
     }, null, '\n'));
 };
 var SENDER = function SENDER(req, res, func) {

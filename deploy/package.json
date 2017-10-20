@@ -3,20 +3,20 @@
     "version": "1.0.0",
     "description": "A simple nodejs api dedicated to math functions",
     "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/BaReinhard/NODEJS-Math-API.git"
+    },
     "dependencies": {
         "express": "^4.16.2",
-        "gulp-babel": "^7.0.0",
-        "gulp-nodemon": "^2.2.1",
-        "prettyjson": "^1.2.1"
+        "serve-favicon": "^2.4.5",
+        "path": "^0.12.7"
     },
     "devDependencies": {
-        "@google-cloud/nodejs-repo-tools": "^2.0.10",
-        "babel-cli": "^6.26.0",
-        "babel-preset-env": "^1.6.1",
-        "gulp": "^3.9.1"
+        "@google-cloud/nodejs-repo-tools": "^2.0.10"
     },
     "engines": {
-        "node": ">=4.3.2"
+        "node": "8.x"
     },
     "scripts": {
         "deploy": "gcloud app deploy",

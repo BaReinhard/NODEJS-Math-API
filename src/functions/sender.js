@@ -1,9 +1,5 @@
-import { hostname } from '../constants';
-const links = {
-    algebra: `${hostname}/algebra`,
-    calculus: `${hostname}/calculus`,
-    geometry: `${hostname}/geometry`,
-};
+import { hostname, links } from '../constants';
+
 let OK = (req, res, result) => {
     res
         .status(200)
@@ -34,8 +30,10 @@ let ERROR = (req, res, func) => {
         JSON.stringify(
             {
                 error: 'Incorrect number of parameters',
-                name: func.name,
-                func_sig: func.toString(),
+                function: {
+                    name: func.name,
+                    signature: func.toString(),
+                },
             },
             null,
             '\n',
@@ -46,15 +44,22 @@ let GIVEDETAILS = (req, res, func) => {
     let params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
     let query = params
         .split(',')
-        .map((item, index) => 'param' + parseInt(index + 1) + '=' + Math.floor(Math.random() * 10));
+        .map((item, index) => 'param' + parseInt(index + 1) + '=' + parseInt(Math.floor(Math.random() * 10) + 1));
     query = query.toString().replace(/,/g, '&');
+    params = params.replace(/ /g, '').split(',');
     res.status(200).send(
         JSON.stringify(
             {
-                name: func.name,
-                func_sig: func.toString(),
-                params: params,
-                linkExample: `${hostname}${req._parsedUrl.pathname}?${query}`,
+                function: {
+                    name: func.name,
+                    signature: func.toString(),
+                    base64: Buffer.from(func.toString()).toString('base64'),
+                    parameters: params,
+                    example: `${hostname}${req._parsedUrl.pathname}?${query}`,
+                },
+                links: Object.assign({}, links, {
+                    parent: `${hostname}/${req._parsedUrl.pathname.split('/')[1]}`,
+                }),
             },
             null,
             '\n',

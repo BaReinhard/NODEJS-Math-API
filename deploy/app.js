@@ -29,6 +29,8 @@ var _taylor_sine = require('./functions/calculus/taylor_sine/taylor_sine');
 
 var _sohcahtoa = require('./functions/geometry/sohcahtoa/sohcahtoa');
 
+var _special_relativity = require('./functions/physics/special_relativity/special_relativity');
+
 var _sender = require('./functions/sender');
 
 var _express = require('express');
@@ -37,82 +39,98 @@ var _express2 = _interopRequireDefault(_express);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var app = (0, _express2.default)();
+var header = ['Content-Type', 'application/json; charset=utf-8'];
 // [START app]
 
-app.get('/algebra', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
 
-    res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.algebraFunctions))).end();
-});
-app.get('/algebra/:id', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
+var app = (0, _express2.default)();
+try {
+    app.get(_constants.algebraEndPoint, function (req, res) {
+        res.header.apply(res, header);
 
-    switch (req.params.id) {
-        case 'nth_term':
-            (0, _sender.SENDER)(req, res, _nth_term.nth_term);
-            break;
-        case 'sum_of_first_n_numbers':
-            (0, _sender.SENDER)(req, res, _sum_of_first_n_terms.sum_of_first_n_numbers);
-            break;
-        case 'factorial':
-            (0, _sender.SENDER)(req, res, _factorial.factorial);
-            break;
-        case 'combinations':
-            (0, _sender.SENDER)(req, res, _combinations.combinations);
-            break;
-    }
-});
-app.get('/calculus', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.algebraFunctions))).end();
+    });
+    app.get(_constants.algebraEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
 
-    res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.calculusFunctions))).end();
-});
-app.get('/geometry', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-
-    res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.geometryFunctions))).end();
-});
-app.get('/calculus/:id', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-
-    switch (req.params.id) {
-        case 'taylor_sine':
-            (0, _sender.SENDER)(req, res, _taylor_sine.taylor_sine);
-    }
-});
-app.get('/geometry/:id', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-
-    switch (req.params.id) {
-        case 'sohcahtoa':
-            (0, _sender.SENDER)(req, res, _sohcahtoa.sohcahtoa);
-    }
-});
-app.get('/', function (req, res) {
-    console.log(_constants.calculusPath);
-    res.header('Content-Type', 'application/json; charset=utf-8');
-
-    res.status(200).send(JSON.stringify({
-        author: {
-            name: 'Brett Reinhard',
-            DOB: '08/19/1989',
-            age: 28,
-            desiredPosition: 'AV Backend Developer Intern',
-            desiredCompany: 'Snapchat',
-            github: 'https://github.com/bareinhard',
-            personalWebsite: 'http://brettreinhard.com',
-            instagram: 'https://instagram.com/bareinhard',
-            twitter: 'https://twitter.com/brett510',
-            snapchat: '@bareinhard'
-        },
-        mathematics: {
-            calculus: _constants.calculusPath,
-            geometry: _constants.geometryPath,
-            algebra: _constants.algebraPath
+        switch (req.params.id) {
+            case 'nth_term':
+                (0, _sender.SENDER)(req, res, _nth_term.nth_term);
+                break;
+            case 'sum_of_first_n_numbers':
+                (0, _sender.SENDER)(req, res, _sum_of_first_n_terms.sum_of_first_n_numbers);
+                break;
+            case 'factorial':
+                (0, _sender.SENDER)(req, res, _factorial.factorial);
+                break;
+            case 'combinations':
+                (0, _sender.SENDER)(req, res, _combinations.combinations);
+                break;
         }
-    }, null, 4)).end();
-});
+    });
+    app.get(_constants.calculusEndPoint, function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.calculusFunctions))).end();
+    });
+    app.get(_constants.geometryEndPoint, function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.geometryFunctions))).end();
+    });
+    app.get(_constants.calculusEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+        switch (req.params.id) {
+            case 'taylor_sine':
+                (0, _sender.SENDER)(req, res, _taylor_sine.taylor_sine);
+        }
+    });
+    app.get(_constants.geometryEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+
+        switch (req.params.id) {
+            case 'sohcahtoa':
+                (0, _sender.SENDER)(req, res, _sohcahtoa.sohcahtoa);
+        }
+    });
+    app.get(_constants.physicsEndPoint, function (req, res) {
+        res.header.apply(res, header);
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.physicsFunctions))).end();
+    });
+    app.get(_constants.physicsEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+        switch (req.params.id) {
+            case 'special_relativity':
+                (0, _sender.SENDER)(req, res, _special_relativity.special_relativity);
+        }
+    });
+    app.get('/', function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify({
+            author: {
+                name: 'Brett Reinhard',
+                DOB: '08/19/1989',
+                age: 28,
+                desiredPosition: 'AV Backend Developer Intern',
+                desiredCompany: 'Snapchat',
+                github: 'https://github.com/bareinhard',
+                personalWebsite: 'http://brettreinhard.com',
+                instagram: 'https://instagram.com/bareinhard',
+                twitter: 'https://twitter.com/brett510',
+                snapchat: '@bareinhard'
+            },
+            links: {
+                calculus: _constants.calculusPath,
+                geometry: _constants.geometryPath,
+                algebra: _constants.algebraPath,
+                physics: _constants.physicsPath
+            }
+        }, null, 4)).end();
+    });
+} catch (err) {
+    console.log(err);
+}
 
 // Start the server
 var PORT = process.env.PORT || 8080;
