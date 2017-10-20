@@ -9,6 +9,7 @@ var _constants = require('../constants');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+// Reusable function to display on each functions endpoint when the correct number of parameters are used via URI
 var OK = function OK(req, res, result) {
     res.status(200).send(JSON.stringify({
         result: result,
@@ -19,6 +20,7 @@ var OK = function OK(req, res, result) {
         }, _constants.links)
     }, null, '\t')).end();
 };
+// Reusable function to display on each functions endpoint when the incorrect number of parameters are used via URI
 var ERROR = function ERROR(req, res, func) {
     res.status(200).send(JSON.stringify({
         error: 'Incorrect number of parameters',
@@ -28,6 +30,8 @@ var ERROR = function ERROR(req, res, func) {
         }
     }, null, '\n'));
 };
+
+// Reusable function to show details of each functions endpoint
 var GIVEDETAILS = function GIVEDETAILS(req, res, func) {
     var params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
     var query = params.split(',').map(function (item, index) {
@@ -48,6 +52,8 @@ var GIVEDETAILS = function GIVEDETAILS(req, res, func) {
         })
     }, null, '\n'));
 };
+
+// Reuseable Sender function to properly display each functions endpoint with params passed via URI
 var SENDER = function SENDER(req, res, func) {
     var vals = Object.values(req.query);
     var params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));

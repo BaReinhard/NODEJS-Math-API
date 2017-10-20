@@ -139,6 +139,7 @@ try {
                             geometry: geometryPath,
                             algebra: algebraPath,
                             physics: physicsPath,
+                            thisRepo: 'https://github.com/BaReinhard/NODEJS-Math-API',
                         },
                     },
                     null,

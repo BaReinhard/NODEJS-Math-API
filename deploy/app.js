@@ -124,7 +124,8 @@ try {
                 calculus: _constants.calculusPath,
                 geometry: _constants.geometryPath,
                 algebra: _constants.algebraPath,
-                physics: _constants.physicsPath
+                physics: _constants.physicsPath,
+                thisRepo: 'https://github.com/BaReinhard/NODEJS-Math-API'
             }
         }, null, 4)).end();
     });

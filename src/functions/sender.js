@@ -1,5 +1,6 @@
 import { hostname, links } from '../constants';
 
+// Reusable function to display on each functions endpoint when the correct number of parameters are used via URI
 let OK = (req, res, result) => {
     res
         .status(200)
@@ -25,6 +26,7 @@ let OK = (req, res, result) => {
         )
         .end();
 };
+// Reusable function to display on each functions endpoint when the incorrect number of parameters are used via URI
 let ERROR = (req, res, func) => {
     res.status(200).send(
         JSON.stringify(
@@ -40,6 +42,8 @@ let ERROR = (req, res, func) => {
         ),
     );
 };
+
+// Reusable function to show details of each functions endpoint
 let GIVEDETAILS = (req, res, func) => {
     let params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
     let query = params
@@ -66,6 +70,8 @@ let GIVEDETAILS = (req, res, func) => {
         ),
     );
 };
+
+// Reuseable Sender function to properly display each functions endpoint with params passed via URI
 let SENDER = (req, res, func) => {
     let vals = Object.values(req.query);
     let params = func.toString().substring(func.toString().indexOf('(') + 1, func.toString().indexOf(')'));
