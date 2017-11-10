@@ -30,7 +30,9 @@
         "node": "8.x"
     },
     "babel": {
-        "presets": ["env"]
+        "presets": [
+            "env"
+        ]
     },
     "scripts": {
         "deploy": "npm run build && npm run test && gh-pages -d deploy",
