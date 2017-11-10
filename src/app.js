@@ -14,6 +14,7 @@
  */
 
 'use strict';
+// Import Constants
 import {
     hostname,
     algebraFunctions,
@@ -28,6 +29,8 @@ import {
     physicsPath,
     physicsFunctions,
     physicsEndPoint,
+    repoURL,
+    author,
 } from './constants';
 import { nth_term } from './functions/algebra/arithmetic_progression/nth_term';
 import { sum_of_first_n_numbers } from './functions/algebra/arithmetic_progression/sum_of_first_n_terms';
@@ -122,24 +125,13 @@ try {
             .send(
                 JSON.stringify(
                     {
-                        author: {
-                            name: 'Brett Reinhard',
-                            DOB: '08/19/1989',
-                            age: 28,
-                            desiredPosition: 'AV Backend Developer Intern',
-                            desiredCompany: 'Snapchat',
-                            github: 'https://github.com/bareinhard',
-                            personalWebsite: 'http://brettreinhard.com',
-                            instagram: 'https://instagram.com/bareinhard',
-                            twitter: 'https://twitter.com/brett510',
-                            snapchat: '@bareinhard',
-                        },
+                        author,
                         links: {
                             calculus: calculusPath,
                             geometry: geometryPath,
                             algebra: algebraPath,
                             physics: physicsPath,
-                            thisRepo: 'https://github.com/BaReinhard/NODEJS-Math-API',
+                            repo: repoURL,
                         },
                     },
                     null,

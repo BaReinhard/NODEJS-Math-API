@@ -34,7 +34,6 @@
     },
     "scripts": {
         "deploy": "npm run build && gh-pages -d deploy",
-        "pub": "gh-pages -d deploy",
         "build": "babel --out-dir deploy src",
         "lint": "eslint ./src",
         "lintfix": "eslint ./src --fix",
