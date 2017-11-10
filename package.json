@@ -40,7 +40,7 @@
         "start": "node app.js",
         "pretest": "npm run lint",
         "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
-        "test": "npm run testonly"
+        "test": "npm run testonly && npm run deploy"
     },
     "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
     "license": "ISC"
