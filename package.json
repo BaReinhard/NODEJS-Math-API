@@ -35,8 +35,10 @@
     "scripts": {
         "deploy": "npm run build && npm run test && gh-pages -d deploy",
         "build": "babel --out-dir deploy src",
+        "lint": "eslint ./src",
         "lintfix": "eslint ./src --fix",
         "start": "node app.js",
+        "pretest": "npm run lint",
         "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
         "test": "npm run testonly"
     },

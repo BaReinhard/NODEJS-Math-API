@@ -15,7 +15,7 @@ env:
    
 
 before_install:
-  - composer config --global github-oauth.github.com "$GITHUB_TOKEN"
+  - npm install && composer config --global github-oauth.github.com "$GITHUB_TOKEN"
 
 install:
   - composer install --prefer-dist
