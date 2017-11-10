@@ -10,9 +10,8 @@ var taylor_sine = function taylor_sine(degree, x) {
     function factorial(n) {
         if (n == 0) {
             return 1;
-        } else {
-            return n * factorial(n - 1);
         }
+        return n * factorial(n - 1);
     }
 
     var ans = 0;
