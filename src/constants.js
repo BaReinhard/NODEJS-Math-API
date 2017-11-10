@@ -1,6 +1,6 @@
 // Hostname to be deployed to
-// const hostname = 'https://api-math.herokuapp.com:';
-const hostname = 'http://localhost:8080';
+const hostname = 'https://api-math.herokuapp.com:';
+// const hostname = 'http://localhost:8080';
 const links = {
     root: `${hostname}`,
 };
