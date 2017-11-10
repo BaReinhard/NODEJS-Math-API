@@ -33,7 +33,7 @@
         "presets": ["env"]
     },
     "scripts": {
-        "deploy": "npm run build && npm run test && gh-pages -d deploy",
+        "deploy": "npm run build && gh-pages -d deploy",
         "pub": "gh-pages -d deploy",
         "build": "babel --out-dir deploy src",
         "lint": "eslint ./src",

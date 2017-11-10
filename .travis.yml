@@ -4,6 +4,7 @@ node_js:
 deploy:
 provider: pages
 skip_cleanup: true
+local_dir: deploy/
 github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
 on:
   branch: master
