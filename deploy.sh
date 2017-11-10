@@ -16,7 +16,7 @@ git init
 git config user.name "Brett Reinhard"
 git config user.email "brett@reinhards.us"
 
-git remote add upstream "https://$GH_TOKEN@github.com/BaReinhard/NODEJS-Math-API.git"
+git remote add upstream "https://$GITHUB_TOKEN@github.com/BaReinhard/NODEJS-Math-API.git"
 git fetch upstream
 git reset upstream/gh-pages
 
