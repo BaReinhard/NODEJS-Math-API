@@ -8,7 +8,7 @@ github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
 on:
   branch: master
 
-
+dist: trusty
 env:
   global:
     secure: "JUuIOO1B9o8CfEArK/zsxj/tA/gbv76ZjImO1JK4XkOkszetsrKOKHhYSZp1JDEZHmma+D4yNIOO6H85jf97vj+ztVvJAgiC3Qvo+rdTa023bBjyMxs9ToPob5DBPszbE5vBnDM+JRW9c3Amr9APCgk5+P+XpfovLVpMofTCqQqRnofHMcyDbpiyx4k8+2DKLrhBkVSRgaogmhC8GxCnX882hws7YxUNuPBH1UxcxBRcWs/Gjnb1GcORgSgdVeojfF6DNRQFGXmfFN4dyaxNxZTrM9IAswVMv/0L+svjVHL/MRyqaNylFd8C5ufglNc8ohi6+pFlyqWtMSu56BkHzw/QF3iQVuEK9Z4eyrtCWTTYU6HPyVrel61a3u0PXG4WlKbgKMmJBEp15iRNCzpXFSSDsodB0dHk+jcx1CefmN+BE14gWbBhvnHy7KlqJEGKn2V+E/aTgw3rwQCAo2LCJdLImiSnQwmlm3IHay/UYg2QWec9w/btduvyv+ZW50SvFDYlMG+S8CyGkcIHfOuuYDHGK32Dc8KfJ08rKu9/8+nSzwpNdlo/IX+wksAtIRR++NUhIle2eCJDqx50roPFpLk0IV5xX9mLVQQF6XjRl6An4r4HkMUQlN5iecPGQhJ4FoluFNzRgSvJlJBIFG0ZtakrmWsY+aZEW+OhpkxeoXk="
