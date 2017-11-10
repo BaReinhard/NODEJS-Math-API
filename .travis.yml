@@ -15,20 +15,10 @@ env:
     secure: "JUuIOO1B9o8CfEArK/zsxj/tA/gbv76ZjImO1JK4XkOkszetsrKOKHhYSZp1JDEZHmma+D4yNIOO6H85jf97vj+ztVvJAgiC3Qvo+rdTa023bBjyMxs9ToPob5DBPszbE5vBnDM+JRW9c3Amr9APCgk5+P+XpfovLVpMofTCqQqRnofHMcyDbpiyx4k8+2DKLrhBkVSRgaogmhC8GxCnX882hws7YxUNuPBH1UxcxBRcWs/Gjnb1GcORgSgdVeojfF6DNRQFGXmfFN4dyaxNxZTrM9IAswVMv/0L+svjVHL/MRyqaNylFd8C5ufglNc8ohi6+pFlyqWtMSu56BkHzw/QF3iQVuEK9Z4eyrtCWTTYU6HPyVrel61a3u0PXG4WlKbgKMmJBEp15iRNCzpXFSSDsodB0dHk+jcx1CefmN+BE14gWbBhvnHy7KlqJEGKn2V+E/aTgw3rwQCAo2LCJdLImiSnQwmlm3IHay/UYg2QWec9w/btduvyv+ZW50SvFDYlMG+S8CyGkcIHfOuuYDHGK32Dc8KfJ08rKu9/8+nSzwpNdlo/IX+wksAtIRR++NUhIle2eCJDqx50roPFpLk0IV5xX9mLVQQF6XjRl6An4r4HkMUQlN5iecPGQhJ4FoluFNzRgSvJlJBIFG0ZtakrmWsY+aZEW+OhpkxeoXk="
    
 
-before_install:
-  - npm install && composer config --global github-oauth.github.com "$GITHUB_TOKEN"
 
 install:
-  - composer install --prefer-dist
-
-after_success: |
-if [ -n "$GITHUB_TOKEN" ]; then
-  cd deploy
-  # This generates a `web` directory containing the website.
-  git checkout -b gh-pages
-  git add .
-  git -c user.name='brett reinhard' -c user.email='brett@reinhards.us' commit -m init
-  # Make sure to make the output quiet, or else the API token will leak!
-  # This works because the API key can replace your password.
-  git push -f -q https://<me>:$GITHUB_TOKEN@github.com/bareinhard/NODEJS-Math-API-gh-pages gh-pages &2>/dev/null
-fi
+  - npm install
+script:
+  - npm run build
+after_success:
+  - bash deploy.sh
