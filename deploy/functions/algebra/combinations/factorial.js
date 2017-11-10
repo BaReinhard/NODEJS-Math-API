@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 var factorial = function factorial(n) {
     n = parseInt(n);
-    if (n === 0) return 1;else return n * factorial(n - 1);
+    if (n === 0) return 1;
+    return n * factorial(n - 1);
 };
 exports.factorial = factorial;

@@ -16,32 +16,31 @@
         "serve-favicon": "^2.4.5"
     },
     "devDependencies": {
-        "@google-cloud/nodejs-repo-tools": "^2.0.10",
         "babel-cli": "^6.26.0",
+        "babel-eslint": "^8.0.2",
         "babel-preset-env": "^1.6.1",
-        "gulp": "^3.9.1"
+        "eslint": "^4.10.0",
+        "expect": "^21.2.1",
+        "gh-pages": "^1.0.0",
+        "gulp": "^3.9.1",
+        "jsdom": "^11.3.0",
+        "mocha": "^4.0.1"
     },
     "engines": {
         "node": "8.x"
     },
-    "scripts": {
-        "deploy": "gcloud app deploy",
-        "build": "babel  --out-dir deploy src",
-        "start": "node app.js",
-        "lint": "samples lint",
-        "pretest": "npm run lint",
-        "system-test": "samples test app",
-        "test": "npm run system-test",
-        "e2e-test": "samples test deploy"
+    "babel": {
+        "presets": ["env"]
     },
-    "cloud-repo-tools": {
-        "test": {
-            "app": {
-                "msg": "Hello, world!"
-            }
-        },
-        "requiresKeyFile": true,
-        "requiresProjectId": true
+    "scripts": {
+        "deploy": "npm run build && npm run test && gh-pages -d deploy",
+        "build": "babel --ignore *test.js --out-dir deploy src",
+        "lint": "eslint ./src",
+        "lintfix": "eslint ./src --fix",
+        "start": "node app.js",
+        "pretest": "npm run lint",
+        "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
+        "test": "npm run testonly"
     },
     "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
     "license": "ISC"

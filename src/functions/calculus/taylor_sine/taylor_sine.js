@@ -5,9 +5,9 @@ let taylor_sine = (degree, x) => {
     function factorial(n) {
         if (n == 0) {
             return 1;
-        } else {
-            return n * factorial(n - 1);
-        }
+        } 
+        return n * factorial(n - 1);
+        
     }
 
     let ans = 0;

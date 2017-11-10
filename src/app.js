@@ -55,18 +55,18 @@ try {
         res.header(...header);
 
         switch (req.params.id) {
-            case 'nth_term':
-                SENDER(req, res, nth_term);
-                break;
-            case 'sum_of_first_n_numbers':
-                SENDER(req, res, sum_of_first_n_numbers);
-                break;
-            case 'factorial':
-                SENDER(req, res, factorial);
-                break;
-            case 'combinations':
-                SENDER(req, res, combinations);
-                break;
+        case 'nth_term':
+            SENDER(req, res, nth_term);
+            break;
+        case 'sum_of_first_n_numbers':
+            SENDER(req, res, sum_of_first_n_numbers);
+            break;
+        case 'factorial':
+            SENDER(req, res, factorial);
+            break;
+        case 'combinations':
+            SENDER(req, res, combinations);
+            break;
         }
     });
     app.get(calculusEndPoint, (req, res) => {
@@ -88,16 +88,16 @@ try {
     app.get(`${calculusEndPoint}/:id`, (req, res) => {
         res.header(...header);
         switch (req.params.id) {
-            case 'taylor_sine':
-                SENDER(req, res, taylor_sine);
+        case 'taylor_sine':
+            SENDER(req, res, taylor_sine);
         }
     });
     app.get(`${geometryEndPoint}/:id`, (req, res) => {
         res.header(...header);
 
         switch (req.params.id) {
-            case 'sohcahtoa':
-                SENDER(req, res, sohcahtoa);
+        case 'sohcahtoa':
+            SENDER(req, res, sohcahtoa);
         }
     });
     app.get(physicsEndPoint, (req, res) => {
@@ -110,8 +110,8 @@ try {
     app.get(`${physicsEndPoint}/:id`, (req, res) => {
         res.header(...header);
         switch (req.params.id) {
-            case 'special_relativity':
-                SENDER(req, res, special_relativity);
+        case 'special_relativity':
+            SENDER(req, res, special_relativity);
         }
     });
     app.get('/', (req, res) => {
