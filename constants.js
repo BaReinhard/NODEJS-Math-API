@@ -4,8 +4,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 // Hostname to be deployed to
-// const hostname = 'https://api-math.herokuapp.com:';
-var hostname = 'http://localhost:8080';
+var hostname = 'https://api-math.herokuapp.com:';
+// const hostname = 'http://localhost:8080';
 var links = {
     root: '' + hostname
 };
