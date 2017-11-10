@@ -9,34 +9,28 @@
     },
     "dependencies": {
         "express": "^4.16.2",
-        "serve-favicon": "^2.4.5",
-        "path": "^0.12.7"
+        "gulp-babel": "^7.0.0",
+        "gulp-nodemon": "^2.2.1",
+        "path": "^0.12.7",
+        "prettyjson": "^1.2.1",
+        "serve-favicon": "^2.4.5"
     },
     "devDependencies": {
-        "@google-cloud/nodejs-repo-tools": "^2.0.10"
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.6.1",
+        "gh-pages": "^1.0.0",
+        "gulp": "^3.9.1"
     },
     "engines": {
         "node": "8.x"
     },
     "scripts": {
-        "deploy": "gcloud app deploy",
+        "deploy": "gh-pages -d deploy",
         "build": "babel  --out-dir deploy src",
         "start": "node app.js",
-        "lint": "samples lint",
-        "pretest": "npm run lint",
-        "system-test": "samples test app",
-        "test": "npm run system-test",
-        "e2e-test": "samples test deploy"
+        "pretest": "npm run lint"
     },
-    "cloud-repo-tools": {
-        "test": {
-            "app": {
-                "msg": "Hello, world!"
-            }
-        },
-        "requiresKeyFile": true,
-        "requiresProjectId": true
-    },
+
     "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
     "license": "ISC"
 }
