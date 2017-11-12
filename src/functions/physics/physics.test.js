@@ -6,5 +6,8 @@ describe('Testing Physics', () => {
         it('Testing Special Relativity Velocity', () => {
             expect(special_relativity(3, 3)).toEqual(0);
         });
+        it('Testing Special Relativity Mass', () => {
+            expect(special_relativity(0, 3)).toEqual(0);
+        });
     });
 });
