@@ -19,6 +19,7 @@ env:
 install:
   - npm install
 script:
+  - npm run test
   - npm run build
 after_success:
   - bash deploy.sh
