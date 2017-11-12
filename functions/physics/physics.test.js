@@ -13,5 +13,8 @@ describe('Testing Physics', function () {
         it('Testing Special Relativity Velocity', function () {
             (0, _expect2.default)((0, _special_relativity.special_relativity)(3, 3)).toEqual(0);
         });
+        it('Testing Special Relativity Mass', function () {
+            (0, _expect2.default)((0, _special_relativity.special_relativity)(0, 3)).toEqual(0);
+        });
     });
 });
