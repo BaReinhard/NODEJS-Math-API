@@ -10,3 +10,6 @@
 * **CI:** It is also implementing TravisCI as you can tell by the `Build Status` png at the top of this README file. Given all tests pass, TravisCI will also deploy to the `gh-pages` branch and heroku will then deploy the latest changes.
 * **Testing:** This project uses mocha for testing to ensure that functions behave the way we would expect before publishing.
 * **Compilation/Transpilation:** Babel is used with the `babel-preset-env` preset, this allows for the latest ES standards to be used during development, and allows for easy changes to the settings to deploy the code to different servers.
+
+
+### Status: **In Progress**
