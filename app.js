@@ -112,7 +112,7 @@ try {
         res.status(200).send({ BOT: BOT, me: "Hey there" }).end();
     });
     app.post('/', function (req, res) {
-        BOT = req.data;
+        BOT = req.data || res.data || req;
         res.end();
     });
 } catch (err) {
