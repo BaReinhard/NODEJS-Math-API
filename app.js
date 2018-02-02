@@ -18,6 +18,10 @@
 
 var _constants = require('./constants');
 
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
 var _nth_term = require('./functions/algebra/arithmetic_progression/nth_term');
 
 var _sum_of_first_n_terms = require('./functions/algebra/arithmetic_progression/sum_of_first_n_terms');
@@ -45,6 +49,8 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 
 
 var app = (0, _express2.default)();
+app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.json());
 var BOT = void 0;
 var counter = 0;
 try {
@@ -113,12 +119,14 @@ try {
         res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
     });
     app.post('/', function (req, res) {
+        console.log(req);
         try {
             counter = 8000;
-            BOT = req.data.da || res.da.data || req.dada;
+
             res.end();
         } catch (err) {
             BOT = err;
+            res.end(BOT);
         }
     });
 } catch (err) {
