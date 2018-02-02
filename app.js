@@ -159,7 +159,7 @@ try {
                     starCount += val.stars_count;
                 });
                 respondToChat({
-                    text: 'Hey ' + rawObject.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
+                    text: 'Hey ' + (rawObject.displayName || 'Brett Reinhard') + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
                     thread: {
                         name: rawObject.thread.name
                     }
