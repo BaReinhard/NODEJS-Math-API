@@ -14,6 +14,7 @@
  */
 
 'use strict';
+// Import Constants
 
 var _constants = require('./constants');
 
@@ -108,24 +109,13 @@ try {
         res.header.apply(res, header);
 
         res.status(200).send(JSON.stringify({
-            author: {
-                name: 'Brett Reinhard',
-                DOB: '08/19/1989',
-                age: 28,
-                desiredPosition: 'AV Backend Developer Intern',
-                desiredCompany: 'Snapchat',
-                github: 'https://github.com/bareinhard',
-                personalWebsite: 'http://brettreinhard.com',
-                instagram: 'https://instagram.com/bareinhard',
-                twitter: 'https://twitter.com/brett510',
-                snapchat: '@bareinhard'
-            },
+            author: _constants.author,
             links: {
                 calculus: _constants.calculusPath,
                 geometry: _constants.geometryPath,
                 algebra: _constants.algebraPath,
                 physics: _constants.physicsPath,
-                thisRepo: 'https://github.com/BaReinhard/NODEJS-Math-API'
+                repo: _constants.repoURL
             }
         }, null, 4)).end();
     });
