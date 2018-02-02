@@ -45,6 +45,8 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 
 
 var app = (0, _express2.default)();
+var BOT = void 0;
+
 try {
     app.get(_constants.algebraEndPoint, function (req, res) {
         res.header.apply(res, header);
@@ -105,7 +107,6 @@ try {
                 (0, _sender.SENDER)(req, res, _special_relativity.special_relativity);
         }
     });
-    var BOT = void 0;
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
