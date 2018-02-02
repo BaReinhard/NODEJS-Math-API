@@ -46,7 +46,7 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 
 var app = (0, _express2.default)();
 var BOT = void 0;
-
+var counter = 0;
 try {
     app.get(_constants.algebraEndPoint, function (req, res) {
         res.header.apply(res, header);
@@ -110,9 +110,10 @@ try {
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
-        res.status(200).send({ BOT: BOT, me: "Hey there" }).end();
+        res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
     });
     app.post('/', function (req, res) {
+        counter++;
         BOT = req.data || res.data || req;
         res.end();
     });
