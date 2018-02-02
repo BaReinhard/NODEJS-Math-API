@@ -38,6 +38,10 @@ var _special_relativity = require("./functions/physics/special_relativity/specia
 
 var _sender = require("./functions/sender");
 
+var _axios = require("axios");
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _express = require("express");
 
 var _express2 = _interopRequireDefault(_express);
@@ -48,12 +52,33 @@ var header = ["Content-Type", "application/json; charset=utf-8"];
 // [START app]
 
 
+var GIT_STARS = "@gitstars";
+var TEST_BOT = "@testbot";
+
 var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
 var BOT = { gitstars: [], testbot: [] };
 var counter = 0;
 try {
+  var parseBotInfo = function parseBotInfo(rawObject) {
+    if (rawObject.text.includes(GIT_STARS)) {
+      return {
+        botType: GIT_STARS,
+        rawText: rawObject.text.replace(GIT_STARS + " ", "").split(" ")[0]
+      };
+    } else if (rawObject.text.includes(TEST_BOT)) {
+      return {
+        botType: TEST_BOT,
+        rawText: rawObject.text.replace(TEST_BOT + " ", "")
+      };
+    }
+  };
+
+  var respondToChat = function respondToChat(postObj) {
+    return _axios2.default.post("https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D", postObj);
+  };
+
   app.get(_constants.algebraEndPoint, function (req, res) {
     res.header.apply(res, header);
 
@@ -118,8 +143,46 @@ try {
 
     res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
   });
+
   app.post("/", function (req, res) {
-    BOT.gitstars.push(req.body);
+    var rawObject = req.body;
+    var BOT_FLAG = void 0;
+
+    var _parseBotInfo = parseBotInfo(rawObject),
+        botType = _parseBotInfo.botType,
+        rawText = _parseBotInfo.rawText;
+
+    if (botType === GIT_STARS) {
+      BOT.gitstars.push(rawObject);
+
+      _axios2.default.get("http://git-awards.com/api/v0/users/" + rawText).then(function (response) {
+        var starCount = 0;
+        response.data.results.forEach(function (val) {
+          starCount += val.stars_count;
+        });
+        respondToChat({
+          text: "Hey " + rawObject.displayName + ", for the username " + rawText + ", I have found " + starCount + " stars. Nice job!",
+          thread: {
+            name: rawObject.thread.name
+          }
+        }).then(function (r) {
+          res.end();
+        });
+      });
+    } else if (botType === TEST_BOT) {
+      BOT.testbot.push(rawObject);
+
+      respondToChat({
+        text: "** In a mocking tone ** " + rawText,
+        thread: {
+          name: rawObject.thread.name
+        }
+      }).then(function (r) {
+        res.end();
+      });
+    } else {
+      res.send("Bad Flag");
+    }
   });
 } catch (err) {
   console.log(err);
