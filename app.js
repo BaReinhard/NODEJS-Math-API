@@ -122,7 +122,7 @@ try {
         console.log(req);
         try {
             counter = 8000;
-
+            BOT = req.body;
             res.end();
         } catch (err) {
             BOT = err;
