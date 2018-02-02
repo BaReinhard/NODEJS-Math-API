@@ -109,10 +109,11 @@ try {
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
-        res.status(200).send(BOT).end();
+        res.status(200).send({ BOT: BOT, me: "Hey there" }).end();
     });
     app.post('/', function (req, res) {
         BOT = req.data;
+        res.end();
     });
 } catch (err) {
     console.log(err);
