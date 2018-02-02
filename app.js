@@ -115,10 +115,10 @@ try {
     app.post('/', function (req, res) {
         try {
             counter = 8000;
-            BOT = req.data || res.data || req;
+            BOT = req.data.da || res.da.data || req.dada;
             res.end();
         } catch (err) {
-            BOT = err.description;
+            BOT = err;
         }
     });
 } catch (err) {
