@@ -113,9 +113,13 @@ try {
         res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
     });
     app.post('/', function (req, res) {
-        counter = 8000;
-        BOT = req.data || res.data || req;
-        res.end();
+        try {
+            counter = 8000;
+            BOT = req.data || res.data || req;
+            res.end();
+        } catch (err) {
+            BOT = err.description;
+        }
     });
 } catch (err) {
     console.log(err);
