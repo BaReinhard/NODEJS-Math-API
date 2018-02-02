@@ -154,7 +154,8 @@ try {
 
             _axios2.default.get('http://git-awards.com/api/v0/users/' + rawText).then(function (response) {
                 var starCount = 0;
-                response.data.results.forEach(function (val) {
+                console.log(response.data);
+                response.data.user.rankings.forEach(function (val) {
                     starCount += val.stars_count;
                 });
                 respondToChat({
@@ -167,6 +168,8 @@ try {
                 }).catch(function (err) {
                     BOT = err;
                 });
+            }).catch(function (err) {
+                console.log(err);
             });
         } else if (botType === TEST_BOT) {
             BOT.testbot.push(rawObject);
