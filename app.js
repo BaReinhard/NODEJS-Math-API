@@ -34,10 +34,6 @@ var _special_relativity = require('./functions/physics/special_relativity/specia
 
 var _sender = require('./functions/sender');
 
-var _axios = require('axios');
-
-var _axios2 = _interopRequireDefault(_axios);
-
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -117,8 +113,7 @@ try {
         res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
     });
     app.post('/', function (req, res) {
-        _axios2.default.post('https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D', { data: "hey" });
-        counter++;
+        counter = 8000;
         BOT = req.data || res.data || req;
         res.end();
     });
