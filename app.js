@@ -167,6 +167,8 @@ try {
           }
         }).then(function (r) {
           res.end();
+        }).catch(function (err) {
+          BOT = err;
         });
       });
     } else if (botType === TEST_BOT) {
@@ -179,6 +181,8 @@ try {
         }
       }).then(function (r) {
         res.end();
+      }).catch(function (err) {
+        BOT = err;
       });
     } else {
       res.send("Bad Flag");
