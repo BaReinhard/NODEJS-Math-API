@@ -159,7 +159,7 @@ try {
                     starCount += val.stars_count;
                 });
                 respondToChat({
-                    text: 'Hey ' + (rawObject.displayName || 'Brett Reinhard') + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
+                    text: 'Hey ' + (rawObject.sender.displayName || 'Brett Reinhard') + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
                     thread: {
                         name: rawObject.thread.name
                     }
@@ -169,7 +169,12 @@ try {
                     BOT = err;
                 });
             }).catch(function (err) {
-                console.log(err);
+                respondToChat({
+                    text: 'Hey ' + rawObject.sender.displayName + ' are you sure thats a valid username? Please be sure to use personal usernames. Enterprise github accounts don\'t work yet',
+                    thread: {
+                        name: rawObject.thread.name
+                    }
+                });
             });
         } else if (botType === TEST_BOT) {
             BOT.testbot.push(rawObject);
