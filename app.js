@@ -59,7 +59,6 @@ var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
 var BOT = { gitstars: [], testbot: [] };
-var counter = 0;
 try {
   var parseBotInfo = function parseBotInfo(rawObject) {
     if (rawObject.text.includes(GIT_STARS)) {
@@ -141,7 +140,7 @@ try {
   app.get("/", function (req, res) {
     res.header.apply(res, header);
 
-    res.status(200).send({ BOT: BOT, me: "Hey there" + counter++ }).end();
+    res.status(200).send({ BOT: BOT }).end();
   });
 
   app.post("/", function (req, res) {
