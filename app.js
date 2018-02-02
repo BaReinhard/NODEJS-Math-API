@@ -105,19 +105,16 @@ try {
                 (0, _sender.SENDER)(req, res, _special_relativity.special_relativity);
         }
     });
+    var BOT = void 0;
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
         res.status(200).send(JSON.stringify({
-            author: _constants.author,
-            links: {
-                calculus: _constants.calculusPath,
-                geometry: _constants.geometryPath,
-                algebra: _constants.algebraPath,
-                physics: _constants.physicsPath,
-                repo: _constants.repoURL
-            }
+            BOT: BOT
         }, null, 4)).end();
+    });
+    app.post('/', function (req, res) {
+        BOT = req.data;
     });
 } catch (err) {
     console.log(err);
