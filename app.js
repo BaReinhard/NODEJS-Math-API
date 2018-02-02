@@ -18,6 +18,10 @@
 
 var _constants = require('./constants');
 
+var _bodyParser = require('body-parser');
+
+var _bodyParser2 = _interopRequireDefault(_bodyParser);
+
 var _nth_term = require('./functions/algebra/arithmetic_progression/nth_term');
 
 var _sum_of_first_n_terms = require('./functions/algebra/arithmetic_progression/sum_of_first_n_terms');
@@ -34,6 +38,10 @@ var _special_relativity = require('./functions/physics/special_relativity/specia
 
 var _sender = require('./functions/sender');
 
+var _axios = require('axios');
+
+var _axios2 = _interopRequireDefault(_axios);
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -44,7 +52,29 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 // [START app]
 
 
+var GIT_STARS = '@gitstars';
+var TEST_BOT = '@testbot';
+
 var app = (0, _express2.default)();
+function parseBotInfo(rawObject) {
+    if (rawObject.text.includes(GIT_STARS)) {
+        return {
+            botType: GIT_STARS,
+            rawText: rawObject.text.replace(GIT_STARS + ' ', '').split(' ')[0]
+        };
+    } else if (rawObject.text.includes(TEST_BOT)) {
+        return {
+            botType: TEST_BOT,
+            rawText: rawObject.text.replace(TEST_BOT + ' ', '')
+        };
+    }
+}
+function respondToChat(postObj) {
+    return _axios2.default.post('https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D', postObj);
+}
+app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.json());
+var BOT = { gitstars: [], testbot: [] };
 try {
     app.get(_constants.algebraEndPoint, function (req, res) {
         res.header.apply(res, header);
@@ -108,16 +138,52 @@ try {
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
-        res.status(200).send(JSON.stringify({
-            author: _constants.author,
-            links: {
-                calculus: _constants.calculusPath,
-                geometry: _constants.geometryPath,
-                algebra: _constants.algebraPath,
-                physics: _constants.physicsPath,
-                repo: _constants.repoURL
-            }
-        }, null, 4)).end();
+        res.status(200).send({ BOT: BOT }).end();
+    });
+
+    app.post('/', function (req, res) {
+        var rawObject = req.body;
+        var BOT_FLAG = void 0;
+
+        var _parseBotInfo = parseBotInfo(rawObject),
+            botType = _parseBotInfo.botType,
+            rawText = _parseBotInfo.rawText;
+
+        if (botType === GIT_STARS) {
+            BOT.gitstars.push(rawObject);
+
+            _axios2.default.get('http://git-awards.com/api/v0/users/' + rawText).then(function (response) {
+                var starCount = 0;
+                response.data.results.forEach(function (val) {
+                    starCount += val.stars_count;
+                });
+                respondToChat({
+                    text: 'Hey ' + rawObject.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
+                    thread: {
+                        name: rawObject.thread.name
+                    }
+                }).then(function (r) {
+                    res.end();
+                }).catch(function (err) {
+                    BOT = err;
+                });
+            });
+        } else if (botType === TEST_BOT) {
+            BOT.testbot.push(rawObject);
+
+            respondToChat({
+                text: '** In a mocking tone ** ' + rawText,
+                thread: {
+                    name: rawObject.thread.name
+                }
+            }).then(function (r) {
+                res.end();
+            }).catch(function (err) {
+                BOT = err;
+            });
+        } else {
+            res.send('Bad Flag');
+        }
     });
 } catch (err) {
     console.log(err);
