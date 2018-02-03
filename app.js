@@ -54,6 +54,7 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 
 var GIT_STARS = '@gitstars';
 var TEST_BOT = '@testbot';
+var JIRA_BOT = '@jira';
 
 var app = (0, _express2.default)();
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
@@ -71,12 +72,15 @@ function parseBotInfo(rawObject) {
         };
     }
 }
+function escapeAt(string) {
+    return string.replace('@', '@');
+}
 function respondToChat(postObj) {
     return _axios2.default.post(ROOM_URL, postObj);
 }
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
-var BOT = { gitstars: [], testbot: [] };
+var BOT = { gitstars: [], testbot: [], jirabot: [] };
 try {
     app.get(_constants.algebraEndPoint, function (req, res) {
         res.header.apply(res, header);
@@ -197,6 +201,25 @@ try {
                 res.end();
             }).catch(function (err) {
                 BOT = err;
+            });
+        } else if (botType === JIRA_BOT) {
+            BOT.jirabot.push(rawObject);
+            _axios2.default.get('https://jira.sc-corp.net/rest/api/latest/search?jql=reporter=' + escapeAt(rawObject.sender.email)).then(function (response) {
+                respondToChat({
+                    text: 'Show Response: ' + reseponse,
+                    thread: {
+                        name: rawObject.thread.name
+                    }
+                });
+            }).catch(function (err) {
+                BOT.jirabot.push(err);
+
+                respondToChat({
+                    text: 'Unfortunately the following error occurred: ' + err,
+                    thread: {
+                        name: rawObject.thread.name
+                    }
+                });
             });
         } else {
             res.send('Bad Flag');
