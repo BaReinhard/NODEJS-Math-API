@@ -233,6 +233,7 @@ try {
     });
 } catch (err) {
     console.log(err);
+    BOT.other.push('An error was caught somewhere');
 }
 
 // Start the server
