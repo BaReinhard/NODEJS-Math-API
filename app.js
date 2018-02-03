@@ -80,7 +80,7 @@ function respondToChat(postObj) {
 }
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
-var BOT = { gitstars: [], testbot: [], jirabot: [] };
+var BOT = { gitstars: [], testbot: [], jirabot: [], other: [] };
 try {
     app.get(_constants.algebraEndPoint, function (req, res) {
         res.header.apply(res, header);
@@ -227,6 +227,7 @@ try {
                 });
             });
         } else {
+            BOT.other.push(rawObject);
             res.send('Bad Flag');
         }
     });
