@@ -168,7 +168,7 @@ try {
                     starCount += val.stars_count;
                 });
                 respondToChat({
-                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars in ' + repoCount + ' different repos. Your top language is ' + topLanguage.language + ' with ' + topLanguage.stars,
+                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars in ' + repoCount + ' different repos. Your top language is ' + topLanguage.language + ' with ' + topLanguage.stars + ' stars.',
                     thread: {
                         name: rawObject.thread.name
                     }
