@@ -56,6 +56,8 @@ var GIT_STARS = '@gitstars';
 var TEST_BOT = '@testbot';
 
 var app = (0, _express2.default)();
+var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
+//AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
 function parseBotInfo(rawObject) {
     if (rawObject.text.includes(GIT_STARS)) {
         return {
@@ -70,7 +72,7 @@ function parseBotInfo(rawObject) {
     }
 }
 function respondToChat(postObj) {
-    return _axios2.default.post('https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D', postObj);
+    return _axios2.default.post(ROOM_URL, postObj);
 }
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
@@ -159,7 +161,7 @@ try {
                     starCount += val.stars_count;
                 });
                 respondToChat({
-                    text: 'Hey ' + (rawObject.sender.displayName || 'Brett Reinhard') + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
+                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
                     thread: {
                         name: rawObject.thread.name
                     }
