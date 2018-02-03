@@ -155,6 +155,7 @@ try {
             botType = _parseBotInfo.botType,
             rawText = _parseBotInfo.rawText;
 
+        BOT.jirabot.push({ botType: botType, rawText: rawText });
         if (botType === GIT_STARS) {
             BOT.gitstars.push(rawObject);
 
