@@ -157,11 +157,18 @@ try {
             _axios2.default.get('http://git-awards.com/api/v0/users/' + rawText).then(function (response) {
                 var starCount = 0;
                 console.log(response.data);
+                var topLanguage = { language: '', stars: 0 };
+                var repoCount = 0;
                 response.data.user.rankings.forEach(function (val) {
+                    if (topLanguage.stars < val.stars_count) {
+                        topLanguage.stars = val.stars_count;
+                        topLanguage.language = val.language;
+                    }
+                    repoCount += val.repository_count;
                     starCount += val.stars_count;
                 });
                 respondToChat({
-                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars. Nice job!',
+                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars in ' + repoCount + ' different repos. Your top language is ' + topLanguage.language + ' with ' + topLanguage.stars,
                     thread: {
                         name: rawObject.thread.name
                     }
