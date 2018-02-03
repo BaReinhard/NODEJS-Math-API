@@ -219,6 +219,10 @@ try {
                     thread: {
                         name: rawObject.thread.name
                     }
+                }).then(function (s) {
+                    res.end();
+                }).catch(function (e) {
+                    BOT.jirabot.push(e);
                 });
             });
         } else {
