@@ -63,19 +63,27 @@ function parseBotInfo(rawObject) {
     if (rawObject.text.includes(GIT_STARS)) {
         return {
             botType: GIT_STARS,
-            rawText: rawObject.text.replace(GIT_STARS + ' ', '').split(' ')[0]
+            rawText: removeBotTag(rawObject.text, GIT_STARS)
         };
     } else if (rawObject.text.includes(TEST_BOT)) {
         return {
             botType: TEST_BOT,
-            rawText: rawObject.text.replace(TEST_BOT + ' ', '')
+            rawText: removeBotTag(rawObject.text, TEST_BOT, false)
         };
     } else if (rawObject.text.includes(JIRA_BOT)) {
         return {
             botType: JIRA_BOT,
-            rawText: rawObject.text.replace(JIRA_BOT + ' ', '').split(' ')[0]
+            rawText: removeBotTag(rawObject.text, JIRA_BOT)
         };
     }
+}
+function removeBotTag(text, tag) {
+    var splitText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    if (splitText) {
+        return text.replace(tag + ' ').split(' ')[0];
+    }
+    return text.replace(tag + ' ').split(' ');
 }
 function escapeAt(string) {
     return string.replace('@', '@');
