@@ -70,6 +70,11 @@ function parseBotInfo(rawObject) {
             botType: TEST_BOT,
             rawText: rawObject.text.replace(TEST_BOT + ' ', '')
         };
+    } else if (rawObject.text.includes(JIRA_BOT)) {
+        return {
+            botType: JIRA_BOT,
+            rawText: rawObject.text.replace(JIRA_BOT + ' ', '').split(' ')[0]
+        };
     }
 }
 function escapeAt(string) {
