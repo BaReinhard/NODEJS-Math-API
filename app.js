@@ -54,7 +54,7 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 
 var GIT_STARS = '@gitstars';
 var TEST_BOT = '@testbot';
-var JIRA_BOT = '@jirabot'; // @jira doesnt work '@jira';
+var JIRA_BOT = '@jira';
 
 var app = (0, _express2.default)();
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
