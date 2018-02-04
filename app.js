@@ -162,7 +162,7 @@ try {
             });
         } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
-                text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(stepCurrent),
+                text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, choice)),
                 thread: {
                     name: rawObject.thread.name
                 }
