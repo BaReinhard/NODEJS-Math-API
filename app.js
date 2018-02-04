@@ -171,9 +171,13 @@ try {
                 res.end();
             });
         } else if (getNextStep(stepCurrent, choice).next.length === 0) {
+            // Make JIRA open issue ajax call
             respondToChat({
-                text: 'Thanks ' + sender.displayName + ', There is currently no immediate fix, we will open a jira ticket for you',
+                text: 'Thanks ' + sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, choice).ticketType + ' jira ticket for you',
                 thread: thread
+            }).then(function (response) {
+                stepPrevious = null;
+                res.end();
             });
         }
     });
