@@ -63,7 +63,8 @@ var BOT = { history: [], error: [] };
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
 //AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
 // Example object
-var defaultStep = stepCurrent = {
+var defaultStep = void 0;
+var stepCurrent = defaultStep = {
     allowedValues: [1, 2],
     menuItems: ['Internal Room Problem', 'External Room Problem'],
     id: 1,
