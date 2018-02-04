@@ -153,7 +153,7 @@ try {
         BOT.history.push(choice);
         if (stepPrevious === null && !stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
-                text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(getNextStep(stepCurrent, choice)),
+                text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
                 thread: {
                     name: rawObject.thread.name
                 }
