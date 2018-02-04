@@ -161,7 +161,7 @@ try {
                 res.end();
             });
         } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
-            BOT.history('Second Logic Level');
+            BOT.history.push('Second Logic Level');
             respondToChat({
                 text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, choice)),
                 thread: {
@@ -174,6 +174,7 @@ try {
             });
         } else if (getNextStep(stepCurrent, choice).next.length === 0) {
             // Make JIRA open issue ajax call
+            BOT.history.push('Third Logic Level');
             respondToChat({
                 text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, choice).ticketType + 'jira ticket for you',
                 thread: {
