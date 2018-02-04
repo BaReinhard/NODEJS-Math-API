@@ -150,6 +150,7 @@ try {
             choice = _parseBotInfo.choice,
             rawText = _parseBotInfo.rawText;
 
+        BOT.history.push(choice);
         if (stepPrevious === null && !stepCurrent.allowedValues.includes(choice)) {
             respondToChat({
                 text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
