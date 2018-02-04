@@ -81,9 +81,9 @@ function removeBotTag(text, tag) {
     var splitText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
     if (splitText) {
-        return text.replace(tag + ' ').split(' ')[0];
+        return text.replace(tag + ' ', '').split(' ')[0];
     }
-    return text.replace(tag + ' ').split(' ');
+    return text.replace(tag + ' ', '');
 }
 function escapeAt(string) {
     return string.replace('@', '@');
