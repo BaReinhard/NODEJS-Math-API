@@ -151,14 +151,14 @@ try {
             rawText = _parseBotInfo.rawText;
 
         BOT.history.push(choice);
-        if (stepPrevious === null && !stepCurrent.allowedValues.includes(choice)) {
+        if (stepPrevious === null && !stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
                 text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
                 thread: { name: rawObject.thread.name }
             }).then(function (response) {
                 res.end();
             });
-        } else if (stepPrevious === null && stepCurrent.allowedValues.includes(choice)) {
+        } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
                 text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which nextStep? ' + createMenu(stepCurrent),
                 thread: { name: rawObject.thread.name }
