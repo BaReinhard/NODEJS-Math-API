@@ -144,6 +144,9 @@ try {
 
     app.post('/', function (req, res) {
         var rawObject = req.body;
+        var sender = rawObject.sender,
+            thread = rawObject.thread;
+
         var BOT_FLAG = void 0;
 
         var _parseBotInfo = parseBotInfo(rawObject),
@@ -153,19 +156,24 @@ try {
         BOT.history.push(choice);
         if (stepPrevious === null && !stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
-                text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
-                thread: { name: rawObject.thread.name }
+                text: 'Hello ' + sender.displayName + ', please answer the following prompt: \n' + createMenu(getNextStep(stepCurrent, choice)),
+                thread: thread
             }).then(function (response) {
                 res.end();
             });
         } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
             respondToChat({
-                text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which nextStep? ' + createMenu(stepCurrent),
-                thread: { name: rawObject.thread.name }
+                text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(stepCurrent),
+                thread: thread
             }).then(function (response) {
                 stepPrevious = stepCurrent;
                 stepCurrent = getNextStep(stepCurrent, choice);
                 res.end();
+            });
+        } else if (getNextStep(stepCurrent, choice).next.length === 0) {
+            respondToChat({
+                text: 'Thanks ' + sender.displayName + ', There is currently no immediate fix, we will open a jira ticket for you',
+                thread: thread
             });
         }
     });
