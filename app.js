@@ -59,7 +59,7 @@ var JIRA_BOT = '@jira';
 var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
-var BOT = { history: [] };
+var BOT = { history: [], error: [] };
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
 //AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
 // Example object
@@ -113,26 +113,34 @@ function respondToChat(postObj) {
     return _axios2.default.post(ROOM_URL, postObj);
 }
 function createMenu(currentStep) {
-    var str = '';
-    currentStep.allowedValues.forEach(function (val, ind) {
-        str += val + '. ' + currentStep.menuItems[ind] + '\n';
-    });
-    return str;
+    try {
+        var str = '';
+        currentStep.allowedValues.forEach(function (val, ind) {
+            str += val + '. ' + currentStep.menuItems[ind] + '\n';
+        });
+        return str;
+    } catch (err) {
+        BOT.error.push(err);
+    }
 }
 function getNextStep(currentStep, currentChoice) {
-    var ret = {};
-    var csId = '';
-    currentStep.next.forEach(function (cs) {
-        if (cs.value === currentChoice) {
-            csId = cs.id;
-        }
-    });
-    steps.forEach(function (obj) {
-        if (obj.id === csId) {
-            ret = obj;
-        }
-    });
-    return ret;
+    try {
+        var ret = {};
+        var csId = '';
+        currentStep.next.forEach(function (cs) {
+            if (cs.value === currentChoice) {
+                csId = cs.id;
+            }
+        });
+        steps.forEach(function (obj) {
+            if (obj.id === csId) {
+                ret = obj;
+            }
+        });
+        return ret;
+    } catch (err) {
+        BOT.error.push(err);
+    }
 }
 
 try {
