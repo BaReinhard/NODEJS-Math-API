@@ -161,6 +161,7 @@ try {
                 res.end();
             });
         } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
+            BOT.history('Second Logic Level');
             respondToChat({
                 text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, choice)),
                 thread: {
