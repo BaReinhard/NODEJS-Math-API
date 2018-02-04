@@ -57,25 +57,46 @@ var TEST_BOT = '@testbot';
 var JIRA_BOT = '@jira';
 
 var app = (0, _express2.default)();
+app.use(_bodyParser2.default.urlencoded({ extended: false }));
+app.use(_bodyParser2.default.json());
+var BOT = { history: [] };
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
 //AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
+// Example object
+var stepCurrent = {
+    allowedValues: [1, 2],
+    menuItems: ['Internal Room Problem', 'External Room Problem'],
+    id: 1,
+    triggersCheck: [],
+    next: [{ value: 1, id: 11 }, { value: 2, id: 12 }],
+    ticketType: null
+};
+var steps = [{
+    allowedValues: [1, 2],
+    menuItems: ['Video Problem', 'Audio Problem'],
+    id: 11,
+    triggersCheck: [],
+    next: [{ value: 1, id: 21 }, { value: 2, id: 22 }],
+    ticketType: null
+}, {
+    allowedValues: [1, 2],
+    menuItems: ['Internal Room Problem', 'External Room Problem'],
+    id: 21,
+    triggersCheck: [],
+    next: [],
+    ticketType: 'Video Issue'
+}, {
+    allowedValues: [1, 2],
+    menuItems: ['Internal Room Problem', 'External Room Problem'],
+    id: 22,
+    triggersCheck: [],
+    next: [],
+    ticketType: 'Audio Issue'
+}];
+var stepPrevious = null;
+var stepTriggered = {};
 function parseBotInfo(rawObject) {
-    if (rawObject.text.includes(GIT_STARS)) {
-        return {
-            botType: GIT_STARS,
-            rawText: removeBotTag(rawObject.text, GIT_STARS)
-        };
-    } else if (rawObject.text.includes(TEST_BOT)) {
-        return {
-            botType: TEST_BOT,
-            rawText: removeBotTag(rawObject.text, TEST_BOT, false)
-        };
-    } else if (rawObject.text.includes(JIRA_BOT)) {
-        return {
-            botType: JIRA_BOT,
-            rawText: removeBotTag(rawObject.text, JIRA_BOT)
-        };
-    }
+    return { choice: rawObject.text, rawText: rawObject.text };
 }
 function removeBotTag(text, tag) {
     var splitText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
@@ -91,69 +112,30 @@ function escapeAt(string) {
 function respondToChat(postObj) {
     return _axios2.default.post(ROOM_URL, postObj);
 }
-app.use(_bodyParser2.default.urlencoded({ extended: false }));
-app.use(_bodyParser2.default.json());
-var BOT = { gitstars: [], testbot: [], jirabot: [], other: [] };
+function createMenu(currentStep) {
+    var str = '';
+    currentStep.allowedValues.forEach(function (val, ind) {
+        str += val + '. ' + currentStep.menuItems[ind] + '\n';
+    });
+    return str;
+}
+function getNextStep(currentStep, currentChoice) {
+    var ret = {};
+    var csId = '';
+    currentStep.next.forEach(function (cs) {
+        if (cs.value === currentChoice) {
+            csId = cs.id;
+        }
+    });
+    steps.forEach(function (obj) {
+        if (obj.id === csId) {
+            ret = obj;
+        }
+    });
+    return ret;
+}
+
 try {
-    app.get(_constants.algebraEndPoint, function (req, res) {
-        res.header.apply(res, header);
-
-        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.algebraFunctions))).end();
-    });
-    app.get(_constants.algebraEndPoint + '/:id', function (req, res) {
-        res.header.apply(res, header);
-
-        switch (req.params.id) {
-            case 'nth_term':
-                (0, _sender.SENDER)(req, res, _nth_term.nth_term);
-                break;
-            case 'sum_of_first_n_numbers':
-                (0, _sender.SENDER)(req, res, _sum_of_first_n_terms.sum_of_first_n_numbers);
-                break;
-            case 'factorial':
-                (0, _sender.SENDER)(req, res, _factorial.factorial);
-                break;
-            case 'combinations':
-                (0, _sender.SENDER)(req, res, _combinations.combinations);
-                break;
-        }
-    });
-    app.get(_constants.calculusEndPoint, function (req, res) {
-        res.header.apply(res, header);
-
-        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.calculusFunctions))).end();
-    });
-    app.get(_constants.geometryEndPoint, function (req, res) {
-        res.header.apply(res, header);
-
-        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.geometryFunctions))).end();
-    });
-    app.get(_constants.calculusEndPoint + '/:id', function (req, res) {
-        res.header.apply(res, header);
-        switch (req.params.id) {
-            case 'taylor_sine':
-                (0, _sender.SENDER)(req, res, _taylor_sine.taylor_sine);
-        }
-    });
-    app.get(_constants.geometryEndPoint + '/:id', function (req, res) {
-        res.header.apply(res, header);
-
-        switch (req.params.id) {
-            case 'sohcahtoa':
-                (0, _sender.SENDER)(req, res, _sohcahtoa.sohcahtoa);
-        }
-    });
-    app.get(_constants.physicsEndPoint, function (req, res) {
-        res.header.apply(res, header);
-        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.physicsFunctions))).end();
-    });
-    app.get(_constants.physicsEndPoint + '/:id', function (req, res) {
-        res.header.apply(res, header);
-        switch (req.params.id) {
-            case 'special_relativity':
-                (0, _sender.SENDER)(req, res, _special_relativity.special_relativity);
-        }
-    });
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
@@ -165,83 +147,25 @@ try {
         var BOT_FLAG = void 0;
 
         var _parseBotInfo = parseBotInfo(rawObject),
-            botType = _parseBotInfo.botType,
+            choice = _parseBotInfo.choice,
             rawText = _parseBotInfo.rawText;
 
-        BOT.jirabot.push({ botType: botType, rawText: rawText });
-        if (botType === GIT_STARS) {
-            BOT.gitstars.push(rawObject);
-
-            _axios2.default.get('http://git-awards.com/api/v0/users/' + rawText).then(function (response) {
-                var starCount = 0;
-                console.log(response.data);
-                var topLanguage = { language: '', stars: 0 };
-                var repoCount = 0;
-                response.data.user.rankings.forEach(function (val) {
-                    if (topLanguage.stars < val.stars_count) {
-                        topLanguage.stars = val.stars_count;
-                        topLanguage.language = val.language;
-                    }
-                    repoCount += val.repository_count;
-                    starCount += val.stars_count;
-                });
-                respondToChat({
-                    text: 'Hey ' + rawObject.sender.displayName + ', for the username ' + rawText + ', I have found ' + starCount + ' stars in ' + repoCount + ' different repos. Your top language is ' + topLanguage.language + ' with ' + topLanguage.stars + ' stars.',
-                    thread: {
-                        name: rawObject.thread.name
-                    }
-                }).then(function (r) {
-                    res.end();
-                }).catch(function (err) {
-                    BOT = err;
-                });
-            }).catch(function (err) {
-                respondToChat({
-                    text: 'Hey ' + rawObject.sender.displayName + ' are you sure thats a valid username? Please be sure to use personal usernames. Enterprise github accounts don\'t work yet',
-                    thread: {
-                        name: rawObject.thread.name
-                    }
-                });
-            });
-        } else if (botType === TEST_BOT) {
-            BOT.testbot.push(rawObject);
-
+        if (stepPrevious === null && !stepCurrent.allowedValues.includes(choice)) {
             respondToChat({
-                text: '** In a mocking tone ** ' + rawText,
-                thread: {
-                    name: rawObject.thread.name
-                }
-            }).then(function (r) {
+                text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
+                thread: { name: rawObject.thread.name }
+            }).then(function (response) {
                 res.end();
-            }).catch(function (err) {
-                BOT = err;
             });
-        } else if (botType === JIRA_BOT) {
-            BOT.jirabot.push(rawObject);
-            _axios2.default.get('https://jira.sc-corp.net/rest/api/latest/search?jql=reporter=' + escapeAt(rawObject.sender.email)).then(function (response) {
-                respondToChat({
-                    text: 'Show Response: ' + reseponse,
-                    thread: {
-                        name: rawObject.thread.name
-                    }
-                });
-            }).catch(function (err) {
-                BOT.jirabot.push(err);
-
-                respondToChat({
-                    text: 'Unfortunately the following error occurred: ' + err,
-                    thread: {
-                        name: rawObject.thread.name
-                    }
-                }).then(function (s) {
-                    res.end();
-                }).catch(function (e) {
-                    BOT.jirabot.push(e);
-                });
+        } else if (stepPrevious === null && stepCurrent.allowedValues.includes(choice)) {
+            respondToChat({
+                text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which nextStep? ' + createMenu(stepCurrent),
+                thread: { name: rawObject.thread.name }
+            }).then(function (response) {
+                stepPrevious = stepCurrent;
+                stepCurrent = getNextStep(stepCurrent, choice);
+                res.end();
             });
-        } else {
-            BOT.other.push(rawObject);
-            res.send('Bad Flag');
         }
     });
 } catch (err) {
