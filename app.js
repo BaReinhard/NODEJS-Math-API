@@ -167,6 +167,8 @@ try {
                 }
             }).then(function (response) {
                 res.end();
+            }).catch(function (err) {
+                res.end();
             });
         } else if (stepPrevious === null && stepCurrent.allowedValues.includes(parseInt(choice))) {
             BOT.history.push('Second Logic Level');
@@ -179,6 +181,8 @@ try {
                 stepPrevious = stepCurrent;
                 stepCurrent = getNextStep(stepCurrent, choice);
                 res.end();
+            }).catch(function (err) {
+                res.end();
             });
         } else if (getNextStep(stepCurrent, choice).next.length === 0) {
             // Make JIRA open issue ajax call
@@ -190,6 +194,8 @@ try {
                 }
             }).then(function (response) {
                 stepPrevious = null;
+                res.end();
+            }).catch(function (err) {
                 res.end();
             });
         }
