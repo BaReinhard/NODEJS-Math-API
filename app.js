@@ -168,6 +168,7 @@ try {
                     name: rawObject.thread.name
                 }
             }).then(function (response) {
+                initiated = true;
                 res.end();
             }).catch(function (err) {
                 res.end();
@@ -195,6 +196,7 @@ try {
                     name: rawObject.thread.name
                 }
             }).then(function (response) {
+                initiated = false;
                 stepPrevious = null;
                 stepCurrent = defaultStep;
                 res.end();
