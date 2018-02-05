@@ -112,7 +112,7 @@ var steps = [{
 var stepPrevious = null;
 var stepTriggered = {};
 function parseBotInfo(rawObject) {
-    return { choice: rawObject.text, rawText: rawObject.text };
+    return { rawChoice: rawObject.text, rawText: rawObject.text };
 }
 function removeBotTag(text, tag) {
     var splitText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
