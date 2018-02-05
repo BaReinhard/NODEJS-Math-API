@@ -85,7 +85,7 @@ var steps = [{
     menuItems: ['Powered off Problem', 'iPad locked Problem'],
     id: 12,
     triggersCheck: [],
-    next: [{ value: 1, id: 21 }, { value: 2, id: 22 }],
+    next: [{ value: 1, id: 23 }, { value: 2, id: 23 }],
     ticketType: null
 }, {
     allowedValues: [1, 2],
@@ -190,6 +190,9 @@ try {
                 choice = _isValid.choice;
 
             if (valid || initiated === false) {
+                if (choice === null) {
+                    choice = rawChoice;
+                }
                 BOT.history.push(choice);
                 if (initiated === false) {
                     respondToChat({
