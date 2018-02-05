@@ -140,8 +140,8 @@ function createMenu(currentStep) {
     }
 }
 function isValid(choice) {
-    var validChoice = parseInt(choice);
-    if (validChoice !== NaN) {
+    var validChoice = parseInt(choice) || 0;
+    if (validChoice !== 0) {
         BOT.error.push(choice);
         return { valid: true, choice: validChoice };
     }
