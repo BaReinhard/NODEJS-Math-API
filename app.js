@@ -187,7 +187,7 @@ try {
             }).catch(function (err) {
                 res.end();
             });
-        } else if (getNextStep(stepCurrent, choice).next.length === 0) {
+        } else if (getNextStep(stepCurrent, parseInt(choice)).next.length === 0) {
             // Make JIRA open issue ajax call
             BOT.history.push('Third Logic Level');
             respondToChat({
