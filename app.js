@@ -160,61 +160,72 @@ try {
     });
 
     app.post('/', function (req, res) {
-        var rawObject = req.body;
-        var BOT_FLAG = void 0;
-        var thread = rawObject.thread;
+        try {
+            var rawObject = req.body;
+            var BOT_FLAG = void 0;
+            var _thread = rawObject.thread;
 
-        var _parseBotInfo = parseBotInfo(rawObject),
-            rawChoice = _parseBotInfo.rawChoice,
-            rawText = _parseBotInfo.rawText;
+            var _parseBotInfo = parseBotInfo(rawObject),
+                rawChoice = _parseBotInfo.rawChoice,
+                rawText = _parseBotInfo.rawText;
 
-        var _isValid = isValid(rawChoice),
-            valid = _isValid.valid,
-            choice = _isValid.choice;
+            var _isValid = isValid(rawChoice),
+                valid = _isValid.valid,
+                choice = _isValid.choice;
 
-        if (valid || initiated === false) {
-            BOT.history.push(choice);
-            if (initiated === false) {
+            if (valid || initiated === false) {
+                BOT.history.push(choice);
+                if (initiated === false) {
+                    respondToChat({
+                        text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
+                        thread: _thread
+                    }).then(function (response) {
+                        initiated = true;
+                        res.end();
+                    }).catch(function (err) {
+                        res.end();
+                    });
+                } else if (stepPrevious === null && stepCurrent.allowedValues.includes(choice)) {
+                    BOT.history.push('Second Logic Level');
+                    respondToChat({
+                        text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, parseInt(choice))),
+                        thread: _thread
+                    }).then(function (response) {
+                        stepPrevious = stepCurrent;
+                        stepCurrent = getNextStep(stepCurrent, parseInt(choice));
+                        res.end();
+                    }).catch(function (err) {
+                        res.end();
+                    });
+                } else if (getNextStep(stepCurrent, parseInt(choice)).next.length === 0) {
+                    // Make JIRA open issue ajax call
+                    BOT.history.push('Third Logic Level');
+                    respondToChat({
+                        text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, parseInt(choice)).ticketType + 'jira ticket for you',
+                        thread: _thread
+                    }).then(function (response) {
+                        initiated = false;
+                        stepPrevious = null;
+                        stepCurrent = defaultStep;
+                        res.end();
+                    }).catch(function (err) {
+                        res.end();
+                    });
+                }
+            } else {
                 respondToChat({
-                    text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
-                    thread: thread
-                }).then(function (response) {
-                    initiated = true;
-                    res.end();
-                }).catch(function (err) {
-                    res.end();
-                });
-            } else if (stepPrevious === null && stepCurrent.allowedValues.includes(choice)) {
-                BOT.history.push('Second Logic Level');
-                respondToChat({
-                    text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, parseInt(choice))),
-                    thread: thread
-                }).then(function (response) {
-                    stepPrevious = stepCurrent;
-                    stepCurrent = getNextStep(stepCurrent, parseInt(choice));
-                    res.end();
-                }).catch(function (err) {
-                    res.end();
-                });
-            } else if (getNextStep(stepCurrent, parseInt(choice)).next.length === 0) {
-                // Make JIRA open issue ajax call
-                BOT.history.push('Third Logic Level');
-                respondToChat({
-                    text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, parseInt(choice)).ticketType + 'jira ticket for you',
-                    thread: thread
-                }).then(function (response) {
-                    initiated = false;
-                    stepPrevious = null;
-                    stepCurrent = defaultStep;
-                    res.end();
-                }).catch(function (err) {
+                    text: 'Please enter a valid choice: \n' + createMenu(stepCurrent),
+                    thread: _thread
+                }).then(function (r) {
                     res.end();
                 });
             }
-        } else {
+        } catch (err) {
             respondToChat({
-                text: 'Please enter a valid choice: \n' + createMenu(stepCurrent),
+                text: 'I apologize for the inconvenience an error has occurred',
                 thread: thread
+            }).then(function (r) {
+                res.end();
             });
         }
     });
