@@ -185,6 +185,8 @@ try {
                 rawChoice = _parseBotInfo.rawChoice,
                 rawText = _parseBotInfo.rawText;
 
+            BOT.history.push({ rawChoice: rawChoice });
+
             var _isValid = isValid(rawChoice),
                 valid = _isValid.valid,
                 choice = _isValid.choice;
