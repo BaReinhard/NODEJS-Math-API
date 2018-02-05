@@ -182,7 +182,7 @@ try {
                 }
             }).then(function (response) {
                 stepPrevious = stepCurrent;
-                stepCurrent = getNextStep(stepCurrent, choice);
+                stepCurrent = getNextStep(stepCurrent, parseInt(choice));
                 res.end();
             }).catch(function (err) {
                 res.end();
