@@ -136,7 +136,7 @@ function createMenu(currentStep) {
         });
         return str;
     } catch (err) {
-        BOT.error.push(err);
+        BOT.error.push({ description: 'This occurred in createMenu', err: err });
     }
 }
 function isValid(choice) {
