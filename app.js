@@ -140,13 +140,12 @@ function createMenu(currentStep) {
     }
 }
 function isValid(choice) {
-    try {
+    var validChoice = parseInt(choice);
+    if (validChoice !== NaN) {
         BOT.error.push(choice);
-        return { valid: true, choice: parseInt(choice) };
-    } catch (err) {
-        BOT.error.push(parseInt(choice));
-        return { valid: false, choice: null };
+        return { valid: true, choice: validChoice };
     }
+    return { valid: false, choice: null };
 }
 function getNextStep(currentStep, currentChoice) {
     try {
