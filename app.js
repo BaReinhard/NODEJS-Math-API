@@ -222,7 +222,7 @@ try {
                     // Make JIRA open issue ajax call
                     BOT.history.push('Third Logic Level');
                     respondToChat({
-                        text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, parseInt(choice)).ticketType + 'jira ticket for you',
+                        text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, parseInt(choice)).ticketType + ' jira ticket for you',
                         thread: _thread
                     }).then(function (response) {
                         initiated = false;
