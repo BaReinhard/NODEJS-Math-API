@@ -117,8 +117,8 @@ function respondToChat(postObj) {
 function createMenu(currentStep) {
     try {
         var str = '';
-        currentStep.allowedValues.forEach(function (val, ind) {
-            str += val + '. ' + currentStep.menuItems[ind] + '\n';
+        currentStep.menuItems.forEach(function (val, ind) {
+            str += ind + 1 + '. ' + val + '\n';
         });
         return str;
     } catch (err) {
