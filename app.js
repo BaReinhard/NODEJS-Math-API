@@ -82,6 +82,13 @@ var steps = [{
     ticketType: null
 }, {
     allowedValues: [1, 2],
+    menuItems: ['Powered off Problem', 'iPad locked Problem'],
+    id: 12,
+    triggersCheck: [],
+    next: [{ value: 1, id: 21 }, { value: 2, id: 22 }],
+    ticketType: null
+}, {
+    allowedValues: [1, 2],
     menuItems: ['Internal Room Problem', 'External Room Problem'],
     id: 21,
     triggersCheck: [],
@@ -94,6 +101,13 @@ var steps = [{
     triggersCheck: [],
     next: [],
     ticketType: 'Audio Issue'
+}, {
+    allowedValues: [1, 2],
+    menuItems: ['Blank', 'Blank'],
+    id: 23,
+    triggersCheck: [],
+    next: [],
+    ticketType: 'Event Board Issue'
 }];
 var stepPrevious = null;
 var stepTriggered = {};
@@ -127,8 +141,10 @@ function createMenu(currentStep) {
 }
 function isValid(choice) {
     try {
+        BOT.error.push(choice);
         return { valid: true, choice: parseInt(choice) };
     } catch (err) {
+        BOT.error.push(parseInt(choice));
         return { valid: false, choice: null };
     }
 }
