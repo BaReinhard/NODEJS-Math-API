@@ -60,6 +60,7 @@ var app = (0, _express2.default)();
 app.use(_bodyParser2.default.urlencoded({ extended: false }));
 app.use(_bodyParser2.default.json());
 var BOT = { history: [], error: [] };
+var initiated = false;
 var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
 //AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
 // Example object
@@ -160,7 +161,7 @@ try {
             rawText = _parseBotInfo.rawText;
 
         BOT.history.push(choice);
-        if (stepPrevious === null && !stepCurrent.allowedValues.includes(parseInt(choice))) {
+        if (initiated === false) {
             respondToChat({
                 text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
                 thread: {
