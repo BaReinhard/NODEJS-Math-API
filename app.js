@@ -125,6 +125,11 @@ function removeBotTag(text, tag) {
 function escapeAt(string) {
     return string.replace('@', '@');
 }
+function resetState() {
+    stepCurrent = defaultStep;
+    stepPrevious = null;
+    initiated = false;
+}
 function respondToChat(postObj) {
     return _axios2.default.post(ROOM_URL, postObj);
 }
@@ -245,12 +250,15 @@ try {
                 text: 'I apologize for the inconvenience an error has occurred',
                 thread: thread
             }).then(function (r) {
+                resetState();
                 res.end();
             });
         }
     });
 } catch (err) {
     console.log(err);
+    resetState();
+
     BOT.other.push('An error was caught somewhere');
 }
 
