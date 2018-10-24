@@ -8,13 +8,13 @@
     "url": "https://github.com/BaReinhard/NODEJS-Math-API.git"
   },
   "dependencies": {
-    "axios": "^0.17.1",
     "express": "^4.16.2",
     "gulp-babel": "^7.0.0",
     "gulp-nodemon": "^2.2.1",
     "path": "^0.12.7",
     "prettyjson": "^1.2.1",
-    "serve-favicon": "^2.4.5"
+    "serve-favicon": "^2.4.5",
+    "snyk": "^1.104.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -31,7 +31,9 @@
     "node": "8.x"
   },
   "babel": {
-    "presets": ["env"]
+    "presets": [
+      "env"
+    ]
   },
   "scripts": {
     "deploy": "npm run build && npm run test && gh-pages -d deploy",
@@ -40,10 +42,12 @@
     "lintfix": "eslint ./src --fix",
     "start": "node app.js",
     "pretest": "npm run lint",
-    "testonly":
-      "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
-    "test": "npm run testonly"
+    "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
+    "test": "npm run testonly",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "snyk": true
 }

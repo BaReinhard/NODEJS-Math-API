@@ -18,10 +18,6 @@
 
 var _constants = require('./constants');
 
-var _bodyParser = require('body-parser');
-
-var _bodyParser2 = _interopRequireDefault(_bodyParser);
-
 var _nth_term = require('./functions/algebra/arithmetic_progression/nth_term');
 
 var _sum_of_first_n_terms = require('./functions/algebra/arithmetic_progression/sum_of_first_n_terms');
@@ -38,10 +34,6 @@ var _special_relativity = require('./functions/physics/special_relativity/specia
 
 var _sender = require('./functions/sender');
 
-var _axios = require('axios');
-
-var _axios2 = _interopRequireDefault(_axios);
-
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -52,214 +44,83 @@ var header = ['Content-Type', 'application/json; charset=utf-8'];
 // [START app]
 
 
-var GIT_STARS = '@gitstars';
-var TEST_BOT = '@testbot';
-var JIRA_BOT = '@jira';
-
 var app = (0, _express2.default)();
-app.use(_bodyParser2.default.urlencoded({ extended: false }));
-app.use(_bodyParser2.default.json());
-var BOT = { history: [], error: [] };
-var initiated = false;
-var ROOM_URL = 'https://chat.googleapis.com/v1/spaces/AAAAgK4qkZM/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=GKn0U5pKXdMfnVHQEbi_h_y4Tpa_iNH02AOAy3o4OuY%3D';
-//AV Dev Test "https://chat.googleapis.com/v1/spaces/AAAAFu57MYk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=2mNZxlGZhx1jqz3vbUjhB2qknHFWsLDWYur5vdvETQo%3D";
-// Example object
-var defaultStep = void 0;
-var stepCurrent = defaultStep = {
-    allowedValues: [1, 2],
-    menuItems: ['Internal Room Problem', 'External Room Problem'],
-    id: 1,
-    triggersCheck: [],
-    next: [{ value: 1, id: 11 }, { value: 2, id: 12 }],
-    ticketType: null
-};
-var steps = [{
-    allowedValues: [1, 2],
-    menuItems: ['Video Problem', 'Audio Problem'],
-    id: 11,
-    triggersCheck: [],
-    next: [{ value: 1, id: 21 }, { value: 2, id: 22 }],
-    ticketType: null
-}, {
-    allowedValues: [1, 2],
-    menuItems: ['Powered off Problem', 'iPad locked Problem'],
-    id: 12,
-    triggersCheck: [],
-    next: [{ value: 1, id: 23 }, { value: 2, id: 23 }],
-    ticketType: null
-}, {
-    allowedValues: [1, 2],
-    menuItems: ['Internal Room Problem', 'External Room Problem'],
-    id: 21,
-    triggersCheck: [],
-    next: [],
-    ticketType: 'Video Issue'
-}, {
-    allowedValues: [1, 2],
-    menuItems: ['Internal Room Problem', 'External Room Problem'],
-    id: 22,
-    triggersCheck: [],
-    next: [],
-    ticketType: 'Audio Issue'
-}, {
-    allowedValues: [1, 2],
-    menuItems: ['Blank', 'Blank'],
-    id: 23,
-    triggersCheck: [],
-    next: [],
-    ticketType: 'Event Board Issue'
-}];
-var stepPrevious = null;
-var stepTriggered = {};
-function parseBotInfo(rawObject) {
-    return { rawChoice: rawObject.text, rawText: rawObject.text };
-}
-function removeBotTag(text, tag) {
-    var splitText = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
-
-    if (splitText) {
-        return text.replace(tag + ' ', '').split(' ')[0];
-    }
-    return text.replace(tag + ' ', '');
-}
-function escapeAt(string) {
-    return string.replace('@', '@');
-}
-function resetState() {
-    stepCurrent = defaultStep;
-    stepPrevious = null;
-    initiated = false;
-}
-function respondToChat(postObj) {
-    return _axios2.default.post(ROOM_URL, postObj);
-}
-function createMenu(currentStep) {
-    try {
-        var str = '';
-        currentStep.menuItems.forEach(function (val, ind) {
-            str += ind + 1 + '. ' + val + '\n';
-        });
-        return str;
-    } catch (err) {
-        BOT.error.push({ description: 'This occurred in createMenu', err: err });
-    }
-}
-function isValid(choice) {
-    var validChoice = parseInt(choice) || 0;
-    if (validChoice !== 0) {
-        BOT.error.push(choice);
-        return { valid: true, choice: validChoice };
-    }
-    return { valid: false, choice: null };
-}
-function getNextStep(currentStep, currentChoice) {
-    try {
-        var ret = {};
-        var csId = '';
-        currentStep.next.forEach(function (cs) {
-            if (cs.value === parseInt(currentChoice)) {
-                csId = cs.id;
-            }
-        });
-        steps.forEach(function (obj) {
-            if (parseInt(obj.id) === parseInt(csId)) {
-                ret = obj;
-            }
-        });
-        return ret;
-    } catch (err) {
-        BOT.error.push(err);
-    }
-}
-
 try {
+    app.get(_constants.algebraEndPoint, function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.algebraFunctions))).end();
+    });
+    app.get(_constants.algebraEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+
+        switch (req.params.id) {
+            case 'nth_term':
+                (0, _sender.SENDER)(req, res, _nth_term.nth_term);
+                break;
+            case 'sum_of_first_n_numbers':
+                (0, _sender.SENDER)(req, res, _sum_of_first_n_terms.sum_of_first_n_numbers);
+                break;
+            case 'factorial':
+                (0, _sender.SENDER)(req, res, _factorial.factorial);
+                break;
+            case 'combinations':
+                (0, _sender.SENDER)(req, res, _combinations.combinations);
+                break;
+        }
+    });
+    app.get(_constants.calculusEndPoint, function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.calculusFunctions))).end();
+    });
+    app.get(_constants.geometryEndPoint, function (req, res) {
+        res.header.apply(res, header);
+
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.geometryFunctions))).end();
+    });
+    app.get(_constants.calculusEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+        switch (req.params.id) {
+            case 'taylor_sine':
+                (0, _sender.SENDER)(req, res, _taylor_sine.taylor_sine);
+        }
+    });
+    app.get(_constants.geometryEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+
+        switch (req.params.id) {
+            case 'sohcahtoa':
+                (0, _sender.SENDER)(req, res, _sohcahtoa.sohcahtoa);
+        }
+    });
+    app.get(_constants.physicsEndPoint, function (req, res) {
+        res.header.apply(res, header);
+        res.status(200).send(JSON.stringify(Object.assign({}, {}, _constants.physicsFunctions))).end();
+    });
+    app.get(_constants.physicsEndPoint + '/:id', function (req, res) {
+        res.header.apply(res, header);
+        switch (req.params.id) {
+            case 'special_relativity':
+                (0, _sender.SENDER)(req, res, _special_relativity.special_relativity);
+        }
+    });
     app.get('/', function (req, res) {
         res.header.apply(res, header);
 
-        res.status(200).send({ BOT: BOT }).end();
-    });
-
-    app.post('/', function (req, res) {
-        try {
-            var rawObject = req.body;
-            var BOT_FLAG = void 0;
-            var _thread = rawObject.thread;
-
-            var _parseBotInfo = parseBotInfo(rawObject),
-                rawChoice = _parseBotInfo.rawChoice,
-                rawText = _parseBotInfo.rawText;
-
-            BOT.history.push({ rawChoice: rawChoice });
-
-            var _isValid = isValid(rawChoice),
-                valid = _isValid.valid,
-                choice = _isValid.choice;
-
-            if (valid || initiated === false) {
-                if (choice === null) {
-                    choice = rawChoice;
-                }
-                BOT.history.push(choice);
-                if (initiated === false) {
-                    respondToChat({
-                        text: 'Hello ' + rawObject.sender.displayName + ', please answer the following prompt: \n' + createMenu(stepCurrent),
-                        thread: _thread
-                    }).then(function (response) {
-                        initiated = true;
-                        res.end();
-                    }).catch(function (err) {
-                        res.end();
-                    });
-                } else if (stepPrevious === null && stepCurrent.allowedValues.includes(choice)) {
-                    BOT.history.push('Second Logic Level');
-                    respondToChat({
-                        text: 'I see, so you currently have a ' + stepCurrent.menuItems[parseInt(choice) - 1] + ', now which next step? \n' + createMenu(getNextStep(stepCurrent, parseInt(choice))),
-                        thread: _thread
-                    }).then(function (response) {
-                        stepPrevious = stepCurrent;
-                        stepCurrent = getNextStep(stepCurrent, parseInt(choice));
-                        res.end();
-                    }).catch(function (err) {
-                        res.end();
-                    });
-                } else if (getNextStep(stepCurrent, parseInt(choice)).next.length === 0) {
-                    // Make JIRA open issue ajax call
-                    BOT.history.push('Third Logic Level');
-                    respondToChat({
-                        text: 'Thanks ' + rawObject.sender.displayName + ', There is currently no immediate fix, we will open a ' + getNextStep(stepCurrent, parseInt(choice)).ticketType + ' jira ticket for you',
-                        thread: _thread
-                    }).then(function (response) {
-                        initiated = false;
-                        stepPrevious = null;
-                        stepCurrent = defaultStep;
-                        res.end();
-                    }).catch(function (err) {
-                        res.end();
-                    });
-                }
-            } else {
-                respondToChat({
-                    text: 'Please enter a valid choice: \n' + createMenu(stepCurrent),
-                    thread: _thread
-                }).then(function (r) {
-                    res.end();
-                });
+        res.status(200).send(JSON.stringify({
+            author: _constants.author,
+            links: {
+                calculus: _constants.calculusPath,
+                geometry: _constants.geometryPath,
+                algebra: _constants.algebraPath,
+                physics: _constants.physicsPath,
+                repo: _constants.repoURL
             }
-        } catch (err) {
-            respondToChat({
-                text: 'I apologize for the inconvenience an error has occurred',
-                thread: thread
-            }).then(function (r) {
-                resetState();
-                res.end();
-            });
-        }
+        }, null, 4)).end();
     });
 } catch (err) {
     console.log(err);
-    resetState();
-
-    BOT.other.push('An error was caught somewhere');
 }
 
 // Start the server
