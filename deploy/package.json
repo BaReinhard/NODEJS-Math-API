@@ -1,47 +1,53 @@
 {
-    "name": "nodejs-math-api",
-    "version": "1.0.0",
-    "description": "A simple nodejs api dedicated to math functions",
-    "main": "index.js",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/BaReinhard/NODEJS-Math-API.git"
-    },
-    "dependencies": {
-        "express": "^4.16.2",
-        "gulp-babel": "^7.0.0",
-        "gulp-nodemon": "^2.2.1",
-        "path": "^0.12.7",
-        "prettyjson": "^1.2.1",
-        "serve-favicon": "^2.4.5"
-    },
-    "devDependencies": {
-        "babel-cli": "^6.26.0",
-        "babel-eslint": "^8.0.2",
-        "babel-preset-env": "^1.6.1",
-        "eslint": "^4.10.0",
-        "expect": "^21.2.1",
-        "gh-pages": "^1.0.0",
-        "gulp": "^3.9.1",
-        "jsdom": "^11.3.0",
-        "mocha": "^4.0.1"
-    },
-    "engines": {
-        "node": "8.x"
-    },
-    "babel": {
-        "presets": ["env"]
-    },
-    "scripts": {
-        "deploy": "npm run build && npm run test && gh-pages -d deploy",
-        "build": "babel --ignore *test.js --out-dir deploy src",
-        "lint": "eslint ./src",
-        "lintfix": "eslint ./src --fix",
-        "start": "node app.js",
-        "pretest": "npm run lint",
-        "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
-        "test": "npm run testonly"
-    },
-    "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
-    "license": "ISC"
+  "name": "nodejs-math-api",
+  "version": "1.0.0",
+  "description": "A simple nodejs api dedicated to math functions",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BaReinhard/NODEJS-Math-API.git"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "gulp-babel": "^7.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "path": "^0.12.7",
+    "prettyjson": "^1.2.1",
+    "serve-favicon": "^2.4.5",
+    "snyk": "^1.104.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-preset-env": "^1.6.1",
+    "eslint": "^4.10.0",
+    "expect": "^21.2.1",
+    "gh-pages": "^1.0.0",
+    "gulp": "^3.9.1",
+    "jsdom": "^11.3.0",
+    "mocha": "^4.0.1"
+  },
+  "engines": {
+    "node": "8.x"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
+  "scripts": {
+    "deploy": "npm run build && npm run test && gh-pages -d deploy",
+    "build": "babel --ignore *test.js --out-dir deploy src",
+    "lint": "eslint ./src",
+    "lintfix": "eslint ./src --fix",
+    "start": "node app.js",
+    "pretest": "npm run lint",
+    "testonly": "mocha --reporter spec --require babel-register \"src/**/*.test.js\"",
+    "test": "npm run testonly",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
+  },
+  "author": "Brett Reinhard <brett@reinhards.us> (http://brettreinhard.com)",
+  "license": "ISC",
+  "snyk": true
 }
