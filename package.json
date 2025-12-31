@@ -8,9 +8,9 @@
         "url": "https://github.com/BaReinhard/NODEJS-Math-API.git"
     },
     "dependencies": {
-        "express": "^4.16.2",
+        "express": "^4.22.0",
         "gulp-babel": "^7.0.0",
-        "gulp-nodemon": "^2.2.1",
+        "gulp-nodemon": "^2.5.0",
         "path": "^0.12.7",
         "prettyjson": "^1.2.1",
         "serve-favicon": "^2.4.5"
